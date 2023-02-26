@@ -113,13 +113,22 @@
                     Edit Password
                   </a>
                 </li>
-                <li class="">
+                <li class="" v-if="$store.getters.user.role == 'student'">
                   <a
                     class="nav-link text-black"
                     href="javascript:void(0)"
                     @click="$router.push('/course')">
                     <fa icon="book"></fa>
-                    My Course
+                    My Courses
+                  </a>
+                </li>
+                <li class="" v-if="$store.getters.user.role == 'proffessor'">
+                  <a
+                    class="nav-link text-black"
+                    href="javascript:void(0)"
+                    @click="$router.push('/proffessor/myteams')">
+                    <fa icon="book"></fa>
+                    My Teams
                   </a>
                 </li>
                 <li class="">
@@ -189,15 +198,27 @@ export default {
       let data = new FormData();
       data.append("n_id", noifty_id);
       data.append("accept", accept);
-      this.$http
-        .post("Notification/notificationRespond", (data = data))
-        .then((res) => {
-          if (res.data.state) {
-            this.Notifications.count = res.data.data.count;
-            this.Notifications.notification = res.data.data.notification;
-          }
-          this.$http.get("Notification/Pusher_notifiy");
-        });
+      if (this.$store.getters.user.role.toLowerCase() == "proffessor") {
+        this.$http
+          .post("Proffessor/notificationRespond", (data = data))
+          .then((res) => {
+            if (res.data.state) {
+              this.Notifications.count = res.data.data.count;
+              this.Notifications.notification = res.data.data.notification;
+            }
+            this.$http.get("Notification/Pusher_notifiy");
+          });
+      } else {
+        this.$http
+          .post("Notification/notificationRespond", (data = data))
+          .then((res) => {
+            if (res.data.state) {
+              this.Notifications.count = res.data.data.count;
+              this.Notifications.notification = res.data.data.notification;
+            }
+            this.$http.get("Notification/Pusher_notifiy");
+          });
+      }
     },
     delete_notify(noifty_id) {
       let data = new FormData();

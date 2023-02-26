@@ -171,7 +171,7 @@ export default {
           const formData = new FormData();
           formData.append("file", that.$refs.file.files[0]);
           const headers = { "Content-Type": "multipart/form-data" };
-          this.$http
+          that.$http
             .post("User/ChangeImg", formData, { headers })
             .then((res) => {
               if (res.data.state) {

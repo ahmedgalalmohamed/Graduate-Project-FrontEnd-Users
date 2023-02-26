@@ -127,7 +127,9 @@
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" v-if="$store.getters.user.id == team_leader">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -136,7 +138,7 @@
                   :key="index">
                   <td>{{ availablestd.name }}</td>
                   <td>{{ availablestd.email }}</td>
-                  <td>
+                  <td v-if="$store.getters.user.id == team_leader">
                     <button
                       class="btn btn-primary"
                       @click="
@@ -268,7 +270,9 @@
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" v-if="$store.getters.user.id == team_leader">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -277,10 +281,10 @@
                   :key="index">
                   <td>{{ availablepro.name }}</td>
                   <td>{{ availablepro.email }}</td>
-                  <td>
+                  <td v-if="$store.getters.user.id == team_leader">
                     <button
                       class="btn btn-primary"
-                      @click="sendJoinRequest(availablepro.id)">
+                      @click="sendProfRequest(availablepro.id, team_id)">
                       Request
                     </button>
                   </td>
@@ -303,14 +307,16 @@ export default {
     data.append("email", this.$store.getters.user.email);
     data.append("id", this.$route.params.id);
     this.$http.post("Course/getCourse", (data = data)).then((res) => {
+      console.log(res.data);
       if (res.data.state) {
         this.description = res.data.data.description;
         this.nameCourse = res.data.data.name;
         this.teams[0].count = res.data.data.availableTeams;
         this.teams[4].count = res.data.data.availableProffessors;
-
+        this.team_leader = res.data.data.teamLeader;
         this.teams[1].count = res.data.data.availableStudents;
         this.team_id = res.data.data.myTeam;
+        this.team_leader = res.data.data.teamLeader;
         this.teams[4].state = res.data.data.isGraduate;
         if (res.data.data.myTeam != null) {
           this.teams[2].state = false;
@@ -348,6 +354,7 @@ export default {
     return {
       nameCourse: "",
       description: "",
+      team_leader: null,
       team_id: null,
       AvailableTeams: [],
       AvailableStudents: [],
@@ -393,12 +400,23 @@ export default {
         Content: content,
         StudentId: student_id,
       };
-      console.log(data);
       this.$http
         .post("Notification/sendJoinRequest", (data = data))
         .then((res) => {
           console.log(res.data);
           this.$http.get("Notification/Pusher_notifiy");
+        });
+    },
+    sendProfRequest(prof_id, team_id) {
+      let data = {
+        TeamId: team_id,
+        SenderId: this.$store.getters.user.id,
+        ProfId: prof_id,
+      };
+      this.$http
+        .post("Proffessor/sendJoinRequest", (data = data))
+        .then((res) => {
+          console.log(res.data);
         });
     },
   },
