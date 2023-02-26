@@ -77,7 +77,7 @@
                 <tr>
                   <th scope="col">Team Name</th>
                   <th scope="col">Leader</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" v-if="team_id == null">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -86,7 +86,7 @@
                   :key="index">
                   <td>{{ availableteam.name }}</td>
                   <td>{{ availableteam.leader }}</td>
-                  <td>
+                  <td v-if="team_id == null">
                     <button
                       class="btn btn-primary"
                       @click="
@@ -140,7 +140,11 @@
                     <button
                       class="btn btn-primary"
                       @click="
-                        sendJoinRequest(availablestd.studentID, team_id, 'student')
+                        sendJoinRequest(
+                          availablestd.studentID,
+                          team_id,
+                          'student'
+                        )
                       ">
                       Request
                     </button>
@@ -319,6 +323,7 @@ export default {
     data.append("email", this.$store.getters.user.email);
     data.append("id", this.$route.params.id);
     this.$http.post("Team/GetAvailableTeams", (data = data)).then((res) => {
+      console.log(res.data);
       if (res.data.state) {
         this.AvailableTeams = res.data.data;
       }
