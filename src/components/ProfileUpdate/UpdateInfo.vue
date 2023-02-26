@@ -75,7 +75,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "UpdateInfo",
   components: {},
@@ -92,7 +91,7 @@ export default {
         Address: this.user.address,
         TeamCount: this.user.team_count,
       };
-      axios.post("User/EditProfile", (data = data)).then((res) => {
+      this.$http.post("User/EditProfile", (data = data)).then((res) => {
         this.user = {};
       });
     },

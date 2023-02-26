@@ -29,7 +29,7 @@
                   :key="index">
                   <a
                     class="nav-link p-0 text-black"
-                    v-if="noifty.content == 'Request'"
+                    v-if="noifty.content.includes('Request')"
                     @click="
                       $router.push(
                         '/profile/' + noifty.senderId + '/' + noifty.senderRole
@@ -141,16 +141,15 @@
 </template>
 
 <script>
-import axios from "axios";
 import Pusher from "pusher-js";
 export default {
   name: "App",
   components: {},
   beforeCreate() {
-    axios.defaults.headers.common["Authorization"] =
+    this.$http.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("token");
     if (localStorage.getItem("token")) {
-      axios.post("Notification/getNotification").then((res) => {
+      this.$http.post("Notification/getNotification").then((res) => {
         this.rand = Math.random();
         if (res.data.state) {
           this.Notifications.count = res.data.data.count;
@@ -166,8 +165,7 @@ export default {
     let that = this;
     var channel = pusher.subscribe("my-channel");
     channel.bind("my-event", function (res) {
-      axios.post("Notification/getNotification").then((res) => {
-        this.rand = Math.random();
+      that.$http.post("Notification/getNotification").then((res) => {
         if (res.data.state) {
           that.Notifications.count = res.data.data.count;
           that.Notifications.notification = res.data.data.senders;
@@ -191,26 +189,26 @@ export default {
       let data = new FormData();
       data.append("n_id", noifty_id);
       data.append("accept", accept);
-      axios
+      this.$http
         .post("Notification/notificationRespond", (data = data))
         .then((res) => {
           if (res.data.state) {
             this.Notifications.count = res.data.data.count;
             this.Notifications.notification = res.data.data.notification;
           }
-          axios.get("Notification/Pusher_notifiy");
+          this.$http.get("Notification/Pusher_notifiy");
           this.rand = Math.random();
         });
     },
     delete_notify(noifty_id) {
       let data = new FormData();
       data.append("id", noifty_id);
-      axios.post("Notification/delete", (data = data)).then((res) => {
+      this.$http.post("Notification/delete", (data = data)).then((res) => {
         if (res.data.state) {
           this.Notifications.count = res.data.data.count;
           this.Notifications.notification = res.data.data.notification;
         }
-        axios.get("Notification/Pusher_notifiy");
+        this.$http.get("Notification/Pusher_notifiy");
         this.rand = Math.random();
       });
     },

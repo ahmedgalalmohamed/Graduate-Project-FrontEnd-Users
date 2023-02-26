@@ -72,8 +72,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "UpdatePassword",
   components: {},
@@ -91,7 +89,7 @@ export default {
       let data = new FormData();
       data.append("oldPass", this.user.oldpass);
       data.append("newPass", this.user.newpass);
-      axios.post("User/EditPassword", (data = data)).then((res) => {
+      this.$http.post("User/EditPassword", (data = data)).then((res) => {
         this.user = {};
       });
     },
