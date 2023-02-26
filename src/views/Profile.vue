@@ -70,7 +70,7 @@
           {{ student.desciption }}
         </div>
       </div>
-      <div v-if="skils != ''" class="user-skils">
+      <div v-if="$route.path.includes('/student')" class="user-skils">
         <div class="d-flex justify-content-between">
           <div><fa class="fs-4" icon="medal"></fa> <span>My skills</span></div>
           <button

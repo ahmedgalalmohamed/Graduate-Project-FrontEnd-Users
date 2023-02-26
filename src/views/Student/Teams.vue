@@ -89,7 +89,9 @@
                   <td>
                     <button
                       class="btn btn-primary"
-                      @click="sendJoinRequest(availableteam.teamID, 'team')">
+                      @click="
+                        sendJoinRequest(null, availableteam.teamID, 'team')
+                      ">
                       Request
                     </button>
                   </td>
@@ -137,7 +139,9 @@
                   <td>
                     <button
                       class="btn btn-primary"
-                      @click="sendJoinRequest(availableteam.teamID, 'team')">
+                      @click="
+                        sendJoinRequest(availablestd.studentID, team_id, 'student')
+                      ">
                       Request
                     </button>
                   </td>
@@ -182,12 +186,6 @@
                     placeholder="Team Name" />
                 </div>
                 <div class="col-3"></div>
-
-                <!-- <div class="col-sm-9 text-start">
-                  <p v-if="!nameIsValid" class="Invalid">
-                    {{ msgErrName }}
-                  </p>
-                </div> -->
               </div>
 
               <div class="row mb-3">
@@ -203,12 +201,6 @@
                     placeholder="Project Name" />
                 </div>
                 <div class="col-3"></div>
-
-                <!-- <div class="col-sm-9 text-start">
-                  <p v-if="!nameIsValid" class="Invalid">
-                    {{ msgErrName }}
-                  </p>
-                </div> -->
               </div>
 
               <div class="row mb-3">
@@ -335,6 +327,7 @@ export default {
     this.$http
       .post("Student/GetAvailableStudents", (data = data))
       .then((res) => {
+        console.log(res.data);
         if (res.data.state) {
           this.AvailableStudents = res.data.data;
         }
@@ -387,15 +380,19 @@ export default {
         window.location = "/course/teams/" + data.CourseId;
       });
     },
-    sendJoinRequest(team_id) {
+    sendJoinRequest(student_id, team_id, content) {
       let data = {
         TeamId: team_id,
         CourseId: this.CreateTeam.courseId,
         SenderId: this.$store.getters.user.id,
+        Content: content,
+        StudentId: student_id,
       };
+      console.log(data);
       this.$http
         .post("Notification/sendJoinRequest", (data = data))
         .then((res) => {
+          console.log(res.data);
           this.$http.get("Notification/Pusher_notifiy");
         });
     },
