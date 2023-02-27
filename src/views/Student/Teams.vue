@@ -72,7 +72,7 @@
               aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <table class="table">
+            <table class="table table-striped table-bordered">
               <thead>
                 <tr>
                   <th scope="col">Team Name</th>
@@ -122,7 +122,7 @@
               aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <table class="table">
+            <table class="table table-striped table-bordered">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
@@ -265,7 +265,7 @@
               aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <table class="table">
+            <table class="table table-striped table-bordered">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
