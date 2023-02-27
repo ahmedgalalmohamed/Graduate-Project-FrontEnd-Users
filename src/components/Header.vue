@@ -248,7 +248,7 @@ export default {
   max-height: 4rem;
   color: var(--light);
   .img {
-    width: 50%;
+    width: 85%;
     img {
       min-height: 3rem;
       max-height: 4rem;
