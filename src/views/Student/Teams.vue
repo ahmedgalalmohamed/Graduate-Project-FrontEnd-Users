@@ -270,7 +270,11 @@
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col" v-if="$store.getters.user.id == team_leader">
+                  <th
+                    scope="col"
+                    v-if="
+                      $store.getters.user.id == team_leader && prof_id == null
+                    ">
                     Action
                   </th>
                 </tr>
@@ -281,7 +285,10 @@
                   :key="index">
                   <td>{{ availablepro.name }}</td>
                   <td>{{ availablepro.email }}</td>
-                  <td v-if="$store.getters.user.id == team_leader">
+                  <td
+                    v-if="
+                      $store.getters.user.id == team_leader && prof_id == null
+                    ">
                     <button
                       class="btn btn-primary"
                       @click="sendProfRequest(availablepro.id, team_id)">
@@ -317,6 +324,7 @@ export default {
         this.teams[1].count = res.data.data.availableStudents;
         this.team_id = res.data.data.myTeam;
         this.team_leader = res.data.data.teamLeader;
+        this.prof_id = res.data.data.proId;
         this.teams[4].state = res.data.data.isGraduate;
         if (res.data.data.myTeam != null) {
           this.teams[2].state = false;
@@ -356,6 +364,7 @@ export default {
       description: "",
       team_leader: null,
       team_id: null,
+      prof_id: null,
       AvailableTeams: [],
       AvailableStudents: [],
       AvailableProfs: [],
@@ -400,6 +409,7 @@ export default {
         Content: content,
         StudentId: student_id,
       };
+      console.log(data);
       this.$http
         .post("Notification/sendJoinRequest", (data = data))
         .then((res) => {

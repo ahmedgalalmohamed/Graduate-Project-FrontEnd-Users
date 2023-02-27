@@ -29,7 +29,7 @@
           </div>
           <button
             class="btn btn-primary"
-            @click="this.$router.push(`/course/teams/${cour.id}`)">
+            @click="this.$router.push(`/myteam/${team.id}`)">
             Continue
           </button>
         </div>

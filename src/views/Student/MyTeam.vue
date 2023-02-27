@@ -1,11 +1,10 @@
 <template>
   <div class="myTeam p-3">
-    <table class="table">
+    <table class="table table-striped table-bordered border-secondary">
       <thead>
-        <tr>
+        <tr class="table-dark">
           <th scope="col">Name</th>
           <th scope="col">Email</th>
-          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -14,15 +13,16 @@
             {{ leader.name }} <fa class="text-warning fs-5" icon="star"></fa>
           </td>
           <td>{{ leader.email }}</td>
-          <td>@mdo</td>
         </tr>
         <tr v-for="(member, index) in members" :key="index">
           <td>{{ member.name }}</td>
           <td>{{ member.email }}</td>
-          <td>@mdo</td>
         </tr>
       </tbody>
     </table>
+    <div class="float-end">
+      <button class="btn btn-danger">Leave</button>
+    </div>
   </div>
 </template>
 
@@ -60,7 +60,7 @@ export default {
   color: #888888;
 }
 @media (max-width: 768px) {
-  th {
+  thead {
     display: none;
   }
   tr {
