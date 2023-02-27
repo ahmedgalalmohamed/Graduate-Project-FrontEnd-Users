@@ -36,8 +36,8 @@ const routes = [
     name: "Courses",
     component: () => import("../views/Student/Courses.vue"),
     beforeEnter: (to, from, next) => {
-    if(store.getters.user.role == 'student') next();
-    else next('/');
+      if (store.getters.user.role == "student") next();
+      else next("/");
     },
   },
   {
@@ -45,18 +45,18 @@ const routes = [
     name: "teams",
     component: () => import("../views/Student/Teams.vue"),
     beforeEnter: (to, from, next) => {
-      if(store.getters.user.role == 'student') next();
-      else next('/');
-      },
+      if (store.getters.user.role == "student") next();
+      else next("/");
+    },
   },
   {
     path: "/myteam/:id",
     name: "MyTeam",
     component: () => import("../views/Student/MyTeam.vue"),
-    beforeEnter: (to, from, next) => {
-      if(store.getters.user.role == 'student') next();
-      else next('/');
-      },
+    // beforeEnter: (to, from, next) => {
+    //   if(store.getters.user.role == 'student') next();
+    //   else next('/');
+    //   },
   },
   {
     path: "/proffessor/myteams",
