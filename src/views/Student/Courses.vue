@@ -18,7 +18,7 @@
                 </td>
               </tr>
               <tr>
-                <th>Discription</th>
+                <th>Description</th>
                 <td>
                   <div class="desc">
                     {{ cour.desciption }}

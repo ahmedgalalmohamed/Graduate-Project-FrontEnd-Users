@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3">
+  <div class="container">
     welcome to studednt
   </div>
 </template>
