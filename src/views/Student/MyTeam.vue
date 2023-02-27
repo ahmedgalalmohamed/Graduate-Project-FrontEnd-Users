@@ -20,8 +20,11 @@
         </tr>
       </tbody>
     </table>
-    <div class="float-end">
-      <button class="btn btn-danger">Leave</button>
+    <div class="float-end" v-if="
+      $store.getters.user.id != leader.studentID &&
+      $store.getters.user.role == 'student'
+    ">
+      <button class="btn btn-danger" @click="LeaveTeam()">Leave</button>
     </div>
   </div>
 </template>
@@ -30,10 +33,19 @@
 export default {
   name: "MyTeam",
   components: {},
-  beforeCreate() {},
-  created() {
-    this.GetMyTeam();
+  beforeCreate() {
+    let data = new FormData();
+    data.append("id", this.$route.params.id);
+    this.$http.post("team/getMyTeam", (data = data)).then((res) => {
+      if (res.data.state) {
+        this.leader = res.data.data.leader[0];
+        this.members = res.data.data.members;
+      } else {
+        this.$router.push("/");
+      }
+    });
   },
+  created() { },
   data: function () {
     return {
       leader: "",
@@ -41,13 +53,13 @@ export default {
     };
   },
   methods: {
-    GetMyTeam() {
+    LeaveTeam() {
       let data = new FormData();
-      data.append("id", this.$route.params.id);
-      this.$http.post("team/getMyTeam", (data = data)).then((res) => {
+      data.append("t_id", this.leader.teamId);
+      data.append("id", this.$store.getters.user.id);
+      this.$http.post("Team/leaveTeam", (data = data)).then((res) => {
         if (res.data.state) {
-          this.leader = res.data.data.leader[0];
-          this.members = res.data.data.members;
+          this.$router.push("/course");
         }
       });
     },
@@ -59,10 +71,12 @@ export default {
 .myTeam {
   color: #888888;
 }
+
 @media (max-width: 768px) {
   thead {
     display: none;
   }
+
   tr {
     display: flex;
     flex-direction: column;
