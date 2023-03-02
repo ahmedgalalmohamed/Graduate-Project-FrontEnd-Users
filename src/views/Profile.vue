@@ -2,11 +2,7 @@
   <div class="profile p-3">
     <div class="user-info">
       <CToaster placement="top-end">
-        <CToast
-          :color="msgs.state ? 'success' : 'danger'"
-          :key="index"
-          v-for="(msg, index) in msgs.msg"
-        >
+        <CToast :color="msgs.state ? 'success' : 'danger'" :key="index" v-for="(msg, index) in msgs.msg">
           <div class="d-flex">
             <CToastBody class="text-light">{{ msg.msg }}</CToastBody>
             <CToastClose class="me-2 m-auto" />
@@ -20,13 +16,7 @@
             <fa icon="camera"></fa>
           </button>
         </div>
-        <input
-          type="file"
-          hidden="hidden"
-          accept=".jpg"
-          ref="file"
-          id="formFile"
-        />
+        <input type="file" hidden="hidden" accept=".jpg" ref="file" id="formFile" />
       </div>
       <div class="info">
         <span class="fs-2 text-secondary fw-bold">{{ student.name }}</span>
@@ -47,17 +37,11 @@
                 <span>Department: </span>
                 <span>{{ "CS" }}</span>
               </div>
-              <div
-                v-if="$store.getters.user.role == 'student'"
-                class="col-md-6 col-12"
-              >
+              <div v-if="$store.getters.user.role == 'student'" class="col-md-6 col-12">
                 <span>Semester: </span>
                 <span>{{ student.semester }}</span>
               </div>
-              <div
-                v-if="$store.getters.user.role == 'proffessor'"
-                class="col-md-6 col-12"
-              >
+              <div v-if="$store.getters.user.role == 'proffessor'" class="col-md-6 col-12">
                 <span>Team Count: </span>
                 <span>{{ student.teamCount }}</span>
               </div>
@@ -87,31 +71,20 @@
       </div>
       <div v-if="$route.path.includes('/student')" class="user-skils">
         <div class="d-flex justify-content-between">
-          <div><fa class="fs-4" icon="medal"></fa> <span>My skills</span></div>
-          <button
-            v-if="myprofile == 'own'"
-            class="btn"
-            data-bs-toggle="modal"
-            data-bs-target="#A2"
-          >
+          <div>
+            <fa class="fs-4" icon="medal"></fa> <span>My skills</span>
+          </div>
+          <button v-if="myprofile == 'own'" class="btn" data-bs-toggle="modal" data-bs-target="#A2">
             <fa class="fs-4 text-primary" icon="plus"></fa>
           </button>
         </div>
         <div>
           <ul class="list-group list-group-flush">
-            <li
-              class="list-group-item d-flex justify-content-between"
-              v-for="(skill, index) in skils"
-              :key="index"
-            >
+            <li class="list-group-item d-flex justify-content-between" v-for="(skill, index) in skils" :key="index">
               <div>
                 {{ skill.skil }}
               </div>
-              <button
-                class="btn"
-                v-if="myprofile == 'own'"
-                @click="deleteSkill(skill.id)"
-              >
+              <button class="btn" v-if="myprofile == 'own'" @click="deleteSkill(skill.id)">
                 <fa class="fs-4 text-danger" icon="trash"></fa>
               </button>
             </li>
@@ -120,54 +93,30 @@
       </div>
     </div>
 
-    <div
-      class="modal fade"
-      id="A2"
-      tabindex="-1"
-      aria-labelledby="A2"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="A2" tabindex="-1" aria-labelledby="A2" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form class="was-validated">
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Your Skill</label>
                 <div class="col-sm-9">
-                  <input
-                    class="form-control"
-                    v-model="skillname"
-                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})"
-                    required
-                    placeholder="Your Skill"
-                  />
+                  <input class="form-control" v-model="skillname"
+                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})" required
+                    placeholder="Your Skill" />
                 </div>
                 <div class="col-3"></div>
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              @click="addSkill()"
-              class="btn btn-primary"
-            >
+            <button type="button" data-bs-dismiss="modal" @click="addSkill()" class="btn btn-primary">
               Add Skill
             </button>
           </div>
@@ -198,11 +147,11 @@ export default {
           that.$http
             .post("User/ChangeImg", formData, { headers })
             .then((res) => {
-              this.msgs.state = res.data.state;
-              this.msgs.msg.push({ msg: res.data.msg });
               if (res.data.state) {
                 that.img = res.data.data;
               }
+              that.msgs.state = res.data.state;
+              that.msgs.msg.push({ msg: res.data.msg });
             });
         }
       }
@@ -267,6 +216,7 @@ export default {
   flex-direction: column;
   align-items: center;
   margin: 0;
+
   .user-info {
     display: flex;
     width: 85vw;
@@ -275,11 +225,14 @@ export default {
     background: #ffffff 0% 0% no-repeat padding-box;
     box-shadow: 20px 20px 25px #8fb8ef2b;
     opacity: 1;
+
     .img {
       width: 180px;
+
       .contain-img {
         position: relative;
       }
+
       button {
         position: absolute;
         top: 80%;
@@ -287,33 +240,40 @@ export default {
         border-radius: 50%;
         background-color: #ddd;
       }
+
       img {
         width: 100%;
         max-height: 200px;
         border-radius: 50%;
       }
     }
+
     .info {
       display: flex;
       flex: 1;
       flex-direction: column;
     }
   }
+
   .s-info {
     display: flex;
     margin-top: 20px;
     width: 85vw;
     justify-content: space-between;
     color: #707070;
+
     .user-desc {
       width: 40%;
     }
+
     .user-skils {
       width: 40%;
+
       svg {
         margin-right: 10px;
       }
     }
+
     span {
       font: normal normal bold 25px/35px Arial;
       letter-spacing: 0px;
@@ -321,21 +281,26 @@ export default {
     }
   }
 }
+
 @media (max-width: 768px) {
   .s-info {
     flex-direction: column;
+
     .user-desc,
     .user-skils {
       margin-top: 10px;
       width: 100% !important;
     }
   }
+
   .user-info {
     flex-direction: column;
     align-items: center;
+
     .img {
       display: flex;
     }
+
     .info {
       span {
         text-align: center;

@@ -3,11 +3,7 @@
     <div class="accordion accordion-flush" id="accordionFlushExample">
       <div class="accordion-item">
         <CToaster placement="top-end">
-          <CToast
-            :color="msgs.state ? 'success' : 'danger'"
-            :key="index"
-            v-for="(msg, index) in msgs.msg"
-          >
+          <CToast :color="msgs.state ? 'success' : 'danger'" :key="index" v-for="(msg, index) in msgs.msg">
             <div class="d-flex">
               <CToastBody class="text-light">{{ msg.msg }}</CToastBody>
               <CToastClose class="me-2 m-auto" />
@@ -15,26 +11,16 @@
           </CToast>
         </CToaster>
         <h2 class="accordion-header" id="flush-headingOne">
-          <button
-            class="accordion-button collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#flush-collapseOne"
-            aria-expanded="false"
-            aria-controls="flush-collapseOne"
-          >
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
             <div style="font-size: 42px; margin-bottom: 15px">
               <fa class="mx-3" icon="laptop-code"></fa>
               <span>{{ nameCourse }}</span>
             </div>
           </button>
         </h2>
-        <div
-          id="flush-collapseOne"
-          class="accordion-collapse collapse"
-          aria-labelledby="flush-headingOne"
-          data-bs-parent="#accordionFlushExample"
-        >
+        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+          data-bs-parent="#accordionFlushExample">
           <div class="accordion-body">
             {{ description }}
           </div>
@@ -42,12 +28,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-around cards">
-      <div
-        class="card text-center"
-        :style="team.state ? '' : 'display:none'"
-        v-for="(team, index) in teams"
-        :key="index"
-      >
+      <div class="card text-center" :style="team.state ? '' : 'display:none'" v-for="(team, index) in teams" :key="index">
         <div class="card-body" v-if="team.state">
           <div>
             <p>{{ team.name }}</p>
@@ -58,12 +39,8 @@
             </p>
             <hr v-if="team.count != null" />
           </div>
-          <button
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            @click="getMyTeam(team.name, teams.id)"
-            :data-bs-target="'#' + 'A' + index"
-          >
+          <button class="btn btn-primary" data-bs-toggle="modal" @click="getMyTeam(team.name, teams.id)"
+            :data-bs-target="'#' + 'A' + index">
             More
           </button>
         </div>
@@ -71,23 +48,12 @@
     </div>
 
     <!-- modal available team -->
-    <div
-      class="modal fade"
-      id="A0"
-      tabindex="-1"
-      aria-labelledby="A0"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="A0" tabindex="-1" aria-labelledby="A0" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="A0">Available Teams</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <table class="table table-striped table-bordered">
@@ -99,19 +65,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="(availableteam, index) in AvailableTeams"
-                  :key="index"
-                >
+                <tr v-for="(availableteam, index) in AvailableTeams" :key="index">
                   <td>{{ availableteam.name }}</td>
                   <td>{{ availableteam.leader }}</td>
                   <td v-if="team_id == null">
-                    <button
-                      class="btn btn-primary"
-                      @click="
-                        sendJoinRequest(null, availableteam.teamID, 'team')
-                      "
-                    >
+                    <button class="btn btn-primary" @click="
+                      sendJoinRequest(null, availableteam.teamID, 'team')
+                    ">
                       Request
                     </button>
                   </td>
@@ -125,23 +85,12 @@
     <!-- modal available team -->
 
     <!-- modal available student -->
-    <div
-      class="modal fade"
-      id="A1"
-      tabindex="-1"
-      aria-labelledby="A1"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="A1" tabindex="-1" aria-labelledby="A1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="A1">Available Student</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <table class="table table-striped table-bordered">
@@ -155,23 +104,17 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="(availablestd, index) in AvailableStudents"
-                  :key="index"
-                >
+                <tr v-for="(availablestd, index) in AvailableStudents" :key="index">
                   <td>{{ availablestd.name }}</td>
                   <td>{{ availablestd.email }}</td>
                   <td v-if="$store.getters.user.id == team_leader">
-                    <button
-                      class="btn btn-primary"
-                      @click="
-                        sendJoinRequest(
-                          availablestd.studentID,
-                          team_id,
-                          'student'
-                        )
-                      "
-                    >
+                    <button class="btn btn-primary" @click="
+                      sendJoinRequest(
+                        availablestd.studentID,
+                        team_id,
+                        'student'
+                      )
+                    ">
                       Request
                     </button>
                   </td>
@@ -185,69 +128,40 @@
     <!-- modal available student -->
 
     <!-- modal create team -->
-    <div
-      class="modal fade"
-      id="A2"
-      tabindex="-1"
-      aria-labelledby="A2"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="A2" tabindex="-1" aria-labelledby="A2" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="A2">Create Team</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form class="was-validated">
               <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"
-                  >Team Name<span class="text-danger">*</span></label
-                >
+                <label class="col-sm-3 col-form-label">Team Name<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                  <input
-                    class="form-control"
-                    v-model="CreateTeam.teamName"
-                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})"
-                    required
-                    placeholder="Team Name"
-                  />
+                  <input class="form-control" v-model="CreateTeam.teamName"
+                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})" required
+                    placeholder="Team Name" />
                 </div>
                 <div class="col-3"></div>
               </div>
 
               <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"
-                  >Project Name<span class="text-danger">*</span></label
-                >
+                <label class="col-sm-3 col-form-label">Project Name<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                  <input
-                    class="form-control"
-                    v-model="CreateTeam.proName"
-                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})"
-                    required
-                    placeholder="Project Name"
-                  />
+                  <input class="form-control" v-model="CreateTeam.proName"
+                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})" required
+                    placeholder="Project Name" />
                 </div>
                 <div class="col-3"></div>
               </div>
 
               <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"
-                  >desciption<span class="text-danger">*</span></label
-                >
+                <label class="col-sm-3 col-form-label">desciption<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                  <textarea
-                    class="form-control"
-                    v-model="CreateTeam.proDesc"
-                    required
-                    placeholder="Desciption"
-                  ></textarea>
+                  <textarea class="form-control" v-model="CreateTeam.proDesc" required
+                    placeholder="Desciption"></textarea>
                 </div>
                 <div class="col-3"></div>
                 <div class="col-9">
@@ -257,19 +171,10 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              @click="addTeam()"
-              class="btn btn-primary"
-            >
+            <button type="button" data-bs-dismiss="modal" @click="addTeam()" class="btn btn-primary">
               Add Team
             </button>
           </div>
@@ -279,23 +184,12 @@
     <!-- modal create team -->
 
     <!-- modal available profs -->
-    <div
-      class="modal fade"
-      id="A4"
-      tabindex="-1"
-      aria-labelledby="A4"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="A4" tabindex="-1" aria-labelledby="A4" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="A4">Available Professors</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <table class="table table-striped table-bordered">
@@ -303,32 +197,21 @@
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <th
-                    scope="col"
-                    v-if="
-                      $store.getters.user.id == team_leader && prof_id == null
-                    "
-                  >
+                  <th scope="col" v-if="
+                    $store.getters.user.id == team_leader && prof_id == null
+                  ">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="(availablepro, index) in AvailableProfs"
-                  :key="index"
-                >
+                <tr v-for="(availablepro, index) in AvailableProfs" :key="index">
                   <td>{{ availablepro.name }}</td>
                   <td>{{ availablepro.email }}</td>
-                  <td
-                    v-if="
-                      $store.getters.user.id == team_leader && prof_id == null
-                    "
-                  >
-                    <button
-                      class="btn btn-primary"
-                      @click="sendProfRequest(availablepro.id, team_id)"
-                    >
+                  <td v-if="
+                    $store.getters.user.id == team_leader && prof_id == null
+                  ">
+                    <button class="btn btn-primary" @click="sendProfRequest(availablepro.id, team_id)">
                       Request
                     </button>
                   </td>
@@ -471,7 +354,7 @@ export default {
         .then((res) => {
           this.msgs.state = res.data.state;
           this.msgs.msg.push({ msg: res.data.msg });
-          console.log(res.data);
+          this.$http.get("Proffessor/Pusher_notifiy");
         });
     },
   },

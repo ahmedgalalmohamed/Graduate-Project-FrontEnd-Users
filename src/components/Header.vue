@@ -8,50 +8,28 @@
         <div class="right">
           <ul class="navbar-nav" :key="Notifications.count">
             <li class="nav-item dropstart">
-              <a
-                class="nav-link sub-router"
-                aria-expanded="false"
-                data-bs-toggle="dropdown"
-              >
+              <a class="nav-link sub-router" aria-expanded="false" data-bs-toggle="dropdown">
                 <div class="position-relative">
                   <fa class="fs-3" icon="bell"></fa>
-                  <span
-                    v-if="Notifications.count > 0"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                  >
+                  <span v-if="Notifications.count > 0"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     {{ Notifications.count }}
                   </span>
                 </div>
               </a>
-              <ul
-                class="dropdown-menu notify drop-list"
-                v-if="Notifications.count > 0"
-              >
-                <li
-                  v-for="(noifty, index) in Notifications.notification"
-                  :key="index"
-                >
-                  <a
-                    class="nav-link p-0 text-black"
-                    v-if="noifty.content.includes('Request')"
-                    @click="
-                      $router.push(
-                        '/profile/' + noifty.senderId + '/' + noifty.senderRole
-                      )
-                    "
-                    href="javascript:void(0)"
-                  >
+              <ul class="dropdown-menu notify drop-list" v-if="Notifications.count > 0">
+                <li v-for="(noifty, index) in Notifications.notification" :key="index">
+                  <a class="nav-link p-0 text-black" v-if="noifty.content.includes('Request')" @click="
+                    $router.push(
+                      '/profile/' + noifty.senderId + '/' + noifty.senderRole
+                    )
+                  " href="javascript:void(0)">
                     <span class="fw-bold">
                       {{ noifty.senderName }}
                     </span>
                     <span class="text-secondary">{{ noifty.senderEmail }}</span>
                   </a>
-                  <a
-                    class="nav-link p-0 text-black"
-                    v-else
-                    href="javascript:void(0)"
-                    @click="delete_notify(noifty.id)"
-                  >
+                  <a class="nav-link p-0 text-black" v-else href="javascript:void(0)" @click="delete_notify(noifty.id)">
                     <span class="fw-bold">
                       {{ noifty.senderName }}
                     </span>
@@ -59,16 +37,10 @@
                     <span class="text-secondary">{{ noifty.content }}</span>
                   </a>
                   <div v-if="noifty.content.includes('Request')">
-                    <button
-                      class="btn btn-success mx-1"
-                      @click="notificationRespond(noifty.id, true)"
-                    >
+                    <button class="btn btn-success mx-1" @click="notificationRespond(noifty.id, true)">
                       Accept
                     </button>
-                    <button
-                      class="btn btn-danger"
-                      @click="notificationRespond(noifty.id, false)"
-                    >
+                    <button class="btn btn-danger" @click="notificationRespond(noifty.id, false)">
                       Reject
                     </button>
                   </div>
@@ -83,74 +55,49 @@
             </li>
 
             <li class="nav-item dropstart">
-              <a
-                class="nav-link sub-router"
-                aria-expanded="false"
-                data-bs-toggle="dropdown"
-              >
+              <a class="nav-link sub-router" aria-expanded="false" data-bs-toggle="dropdown">
                 <fa class="fs-1" icon="circle-user"></fa>
               </a>
               <ul class="dropdown-menu">
                 <li class="">
-                  <a
-                    class="nav-link text-black"
-                    @click="
-                      $router.push(
-                        '/profile/' +
-                          $store.getters.user.id +
-                          '/' +
-                          $store.getters.user.role
-                      )
-                    "
-                  >
+                  <a class="nav-link text-black" @click="
+                    $router.push(
+                      '/profile/' +
+                      $store.getters.user.id +
+                      '/' +
+                      $store.getters.user.role
+                    )
+                  ">
                     <fa icon="circle-user"></fa>
                     My Profile
                   </a>
                 </li>
                 <li class="">
-                  <a
-                    class="nav-link text-black"
-                    @click="$router.push('/profileupdate/info')"
-                  >
+                  <a class="nav-link text-black" @click="$router.push('/profileupdate/info')">
                     <fa icon="pen"></fa>
                     Edit Profile
                   </a>
                 </li>
                 <li class="">
-                  <a
-                    class="nav-link text-black"
-                    @click="$router.push('/profileupdate/password')"
-                  >
+                  <a class="nav-link text-black" @click="$router.push('/profileupdate/password')">
                     <fa icon="key"></fa>
                     Edit Password
                   </a>
                 </li>
                 <li class="" v-if="$store.getters.user.role == 'student'">
-                  <a
-                    class="nav-link text-black"
-                    href="javascript:void(0)"
-                    @click="$router.push('/course')"
-                  >
+                  <a class="nav-link text-black" href="javascript:void(0)" @click="$router.push('/course')">
                     <fa icon="book"></fa>
                     My Courses
                   </a>
                 </li>
                 <li class="" v-if="$store.getters.user.role == 'proffessor'">
-                  <a
-                    class="nav-link text-black"
-                    href="javascript:void(0)"
-                    @click="$router.push('/proffessor/myteams')"
-                  >
+                  <a class="nav-link text-black" href="javascript:void(0)" @click="$router.push('/proffessor/myteams')">
                     <fa icon="book"></fa>
                     My Teams
                   </a>
                 </li>
                 <li class="">
-                  <a
-                    class="nav-link text-black"
-                    href="javascript:void(0)"
-                    @click="logout()"
-                  >
+                  <a class="nav-link text-black" href="javascript:void(0)" @click="logout()">
                     <fa icon="right-from-bracket"></fa>
                     logout
                   </a>
@@ -175,6 +122,7 @@ export default {
     if (localStorage.getItem("token")) {
       this.$http.post("Notification/getNotification").then((res) => {
         this.rand = Math.random();
+        console.log(res.data);
         if (res.data.state) {
           this.Notifications.count = res.data.data.count;
           this.Notifications.notification = res.data.data.senders;
@@ -187,9 +135,18 @@ export default {
       cluster: "eu",
     });
     let that = this;
-    var channel = pusher.subscribe("my-channel");
-    channel.bind("my-event", function (res) {
+    var channel1 = pusher.subscribe("notify-user-sub");
+    var channel2 = pusher.subscribe("notify-prof-sub");
+    channel1.bind("notify-user-ev", function (res) {
       that.$http.post("Notification/getNotification").then((res) => {
+        if (res.data.state) {
+          that.Notifications.count = res.data.data.count;
+          that.Notifications.notification = res.data.data.senders;
+        }
+      });
+    });
+    channel2.bind("notify-prof-ev", function (res) {
+      that.$http.get("Proffessor/getNotification").then((res) => {
         if (res.data.state) {
           that.Notifications.count = res.data.data.count;
           that.Notifications.notification = res.data.data.senders;
@@ -262,35 +219,45 @@ export default {
   min-height: 3rem;
   max-height: 4rem;
   color: var(--light);
+
   .img {
-    width: 85%;
+    width: 50%;
+
     img {
       min-height: 3rem;
       max-height: 4rem;
     }
   }
+
   .links {
     width: 10%;
+
     .right {
       display: flex;
+
       ul {
         li {
           align-self: center;
         }
       }
+
       .drop-list {
         height: 16rem;
         overflow: hidden;
         overflow-y: auto;
+
         li {
           margin: 10px;
         }
       }
+
       .notify {
         margin-top: 2rem;
         width: 15rem;
+
         li {
           padding: 10px;
+
           span {
             display: block;
           }
