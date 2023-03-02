@@ -11,22 +11,26 @@
               <a
                 class="nav-link sub-router"
                 aria-expanded="false"
-                data-bs-toggle="dropdown">
+                data-bs-toggle="dropdown"
+              >
                 <div class="position-relative">
                   <fa class="fs-3" icon="bell"></fa>
                   <span
                     v-if="Notifications.count > 0"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  >
                     {{ Notifications.count }}
                   </span>
                 </div>
               </a>
               <ul
                 class="dropdown-menu notify drop-list"
-                v-if="Notifications.count > 0">
+                v-if="Notifications.count > 0"
+              >
                 <li
                   v-for="(noifty, index) in Notifications.notification"
-                  :key="index">
+                  :key="index"
+                >
                   <a
                     class="nav-link p-0 text-black"
                     v-if="noifty.content.includes('Request')"
@@ -35,35 +39,39 @@
                         '/profile/' + noifty.senderId + '/' + noifty.senderRole
                       )
                     "
-                    href="javascript:void(0)">
+                    href="javascript:void(0)"
+                  >
                     <span class="fw-bold">
                       {{ noifty.senderName }}
                     </span>
                     <span class="text-secondary">{{ noifty.senderEmail }}</span>
-                    <div>
-                      <button
-                        class="btn btn-success mx-1"
-                        @click="notificationRespond(noifty.id, true)">
-                        Accept
-                      </button>
-                      <button
-                        class="btn btn-danger"
-                        @click="notificationRespond(noifty.id, false)">
-                        Reject
-                      </button>
-                    </div>
                   </a>
                   <a
                     class="nav-link p-0 text-black"
                     v-else
                     href="javascript:void(0)"
-                    @click="delete_notify(noifty.id)">
+                    @click="delete_notify(noifty.id)"
+                  >
                     <span class="fw-bold">
                       {{ noifty.senderName }}
                     </span>
                     <span class="text-secondary">{{ noifty.senderEmail }}</span>
                     <span class="text-secondary">{{ noifty.content }}</span>
                   </a>
+                  <div v-if="noifty.content.includes('Request')">
+                    <button
+                      class="btn btn-success mx-1"
+                      @click="notificationRespond(noifty.id, true)"
+                    >
+                      Accept
+                    </button>
+                    <button
+                      class="btn btn-danger"
+                      @click="notificationRespond(noifty.id, false)"
+                    >
+                      Reject
+                    </button>
+                  </div>
                   <hr />
                 </li>
               </ul>
@@ -78,7 +86,8 @@
               <a
                 class="nav-link sub-router"
                 aria-expanded="false"
-                data-bs-toggle="dropdown">
+                data-bs-toggle="dropdown"
+              >
                 <fa class="fs-1" icon="circle-user"></fa>
               </a>
               <ul class="dropdown-menu">
@@ -92,7 +101,8 @@
                           '/' +
                           $store.getters.user.role
                       )
-                    ">
+                    "
+                  >
                     <fa icon="circle-user"></fa>
                     My Profile
                   </a>
@@ -100,7 +110,8 @@
                 <li class="">
                   <a
                     class="nav-link text-black"
-                    @click="$router.push('/profileupdate/info')">
+                    @click="$router.push('/profileupdate/info')"
+                  >
                     <fa icon="pen"></fa>
                     Edit Profile
                   </a>
@@ -108,7 +119,8 @@
                 <li class="">
                   <a
                     class="nav-link text-black"
-                    @click="$router.push('/profileupdate/password')">
+                    @click="$router.push('/profileupdate/password')"
+                  >
                     <fa icon="key"></fa>
                     Edit Password
                   </a>
@@ -117,7 +129,8 @@
                   <a
                     class="nav-link text-black"
                     href="javascript:void(0)"
-                    @click="$router.push('/course')">
+                    @click="$router.push('/course')"
+                  >
                     <fa icon="book"></fa>
                     My Courses
                   </a>
@@ -126,7 +139,8 @@
                   <a
                     class="nav-link text-black"
                     href="javascript:void(0)"
-                    @click="$router.push('/proffessor/myteams')">
+                    @click="$router.push('/proffessor/myteams')"
+                  >
                     <fa icon="book"></fa>
                     My Teams
                   </a>
@@ -135,7 +149,8 @@
                   <a
                     class="nav-link text-black"
                     href="javascript:void(0)"
-                    @click="logout()">
+                    @click="logout()"
+                  >
                     <fa icon="right-from-bracket"></fa>
                     logout
                   </a>

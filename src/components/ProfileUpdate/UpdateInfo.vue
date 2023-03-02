@@ -1,5 +1,17 @@
 <template>
   <div class="container">
+    <CToaster placement="top-end">
+      <CToast
+        :color="msgs.state ? 'success' : 'danger'"
+        :key="index"
+        v-for="(msg, index) in msgs.msg"
+      >
+        <div class="d-flex">
+          <CToastBody class="text-light">{{ msg.msg }}</CToastBody>
+          <CToastClose class="me-2 m-auto" />
+        </div>
+      </CToast>
+    </CToaster>
     <div class="left">
       <h3>Change Info</h3>
       <p class="my-3">Info must contain:</p>
@@ -30,7 +42,8 @@
               class="form-control"
               v-model="user.phone"
               required
-              pattern="01[0125][0-9]{8}" />
+              pattern="01[0125][0-9]{8}"
+            />
           </div>
         </div>
 
@@ -58,7 +71,8 @@
               min="0"
               max="10"
               v-model="user.team_count"
-              required />
+              required
+            />
           </div>
         </div>
 
@@ -75,11 +89,13 @@
 </template>
 
 <script>
+import { CToaster, CToastBody, CToast, CToastClose } from "@coreui/vue";
 export default {
   name: "UpdateInfo",
-  components: {},
+  components: { CToaster, CToastBody, CToast, CToastClose },
   data() {
     return {
+      msgs: { msg: [], state: true },
       user: { phone: "", desc: "", address: "", team_count: 0 },
     };
   },
@@ -93,6 +109,8 @@ export default {
       };
       this.$http.post("User/EditProfile", (data = data)).then((res) => {
         this.user = {};
+        this.msgs.state = res.data.state;
+        this.msgs.msg.push({ msg: res.data.msg });
       });
     },
   },
