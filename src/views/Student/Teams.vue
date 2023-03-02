@@ -2,6 +2,18 @@
   <div class="p-3">
     <div class="accordion accordion-flush" id="accordionFlushExample">
       <div class="accordion-item">
+        <CToaster placement="top-end">
+          <CToast
+            :color="msgs.state ? 'success' : 'danger'"
+            :key="index"
+            v-for="(msg, index) in msgs.msg"
+          >
+            <div class="d-flex">
+              <CToastBody class="text-light">{{ msg.msg }}</CToastBody>
+              <CToastClose class="me-2 m-auto" />
+            </div>
+          </CToast>
+        </CToaster>
         <h2 class="accordion-header" id="flush-headingOne">
           <button
             class="accordion-button collapsed"
@@ -9,7 +21,8 @@
             data-bs-toggle="collapse"
             data-bs-target="#flush-collapseOne"
             aria-expanded="false"
-            aria-controls="flush-collapseOne">
+            aria-controls="flush-collapseOne"
+          >
             <div style="font-size: 42px; margin-bottom: 15px">
               <fa class="mx-3" icon="laptop-code"></fa>
               <span>{{ nameCourse }}</span>
@@ -20,7 +33,8 @@
           id="flush-collapseOne"
           class="accordion-collapse collapse"
           aria-labelledby="flush-headingOne"
-          data-bs-parent="#accordionFlushExample">
+          data-bs-parent="#accordionFlushExample"
+        >
           <div class="accordion-body">
             {{ description }}
           </div>
@@ -32,7 +46,8 @@
         class="card text-center"
         :style="team.state ? '' : 'display:none'"
         v-for="(team, index) in teams"
-        :key="index">
+        :key="index"
+      >
         <div class="card-body" v-if="team.state">
           <div>
             <p>{{ team.name }}</p>
@@ -47,7 +62,8 @@
             class="btn btn-primary"
             data-bs-toggle="modal"
             @click="getMyTeam(team.name, teams.id)"
-            :data-bs-target="'#' + 'A' + index">
+            :data-bs-target="'#' + 'A' + index"
+          >
             More
           </button>
         </div>
@@ -60,7 +76,8 @@
       id="A0"
       tabindex="-1"
       aria-labelledby="A0"
-      aria-hidden="true">
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -69,7 +86,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <table class="table table-striped table-bordered">
@@ -83,7 +101,8 @@
               <tbody>
                 <tr
                   v-for="(availableteam, index) in AvailableTeams"
-                  :key="index">
+                  :key="index"
+                >
                   <td>{{ availableteam.name }}</td>
                   <td>{{ availableteam.leader }}</td>
                   <td v-if="team_id == null">
@@ -91,7 +110,8 @@
                       class="btn btn-primary"
                       @click="
                         sendJoinRequest(null, availableteam.teamID, 'team')
-                      ">
+                      "
+                    >
                       Request
                     </button>
                   </td>
@@ -110,7 +130,8 @@
       id="A1"
       tabindex="-1"
       aria-labelledby="A1"
-      aria-hidden="true">
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -119,7 +140,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <table class="table table-striped table-bordered">
@@ -135,7 +157,8 @@
               <tbody>
                 <tr
                   v-for="(availablestd, index) in AvailableStudents"
-                  :key="index">
+                  :key="index"
+                >
                   <td>{{ availablestd.name }}</td>
                   <td>{{ availablestd.email }}</td>
                   <td v-if="$store.getters.user.id == team_leader">
@@ -147,7 +170,8 @@
                           team_id,
                           'student'
                         )
-                      ">
+                      "
+                    >
                       Request
                     </button>
                   </td>
@@ -166,7 +190,8 @@
       id="A2"
       tabindex="-1"
       aria-labelledby="A2"
-      aria-hidden="true">
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -175,7 +200,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <form class="was-validated">
@@ -189,7 +215,8 @@
                     v-model="CreateTeam.teamName"
                     pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})"
                     required
-                    placeholder="Team Name" />
+                    placeholder="Team Name"
+                  />
                 </div>
                 <div class="col-3"></div>
               </div>
@@ -204,7 +231,8 @@
                     v-model="CreateTeam.proName"
                     pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})"
                     required
-                    placeholder="Project Name" />
+                    placeholder="Project Name"
+                  />
                 </div>
                 <div class="col-3"></div>
               </div>
@@ -218,7 +246,8 @@
                     class="form-control"
                     v-model="CreateTeam.proDesc"
                     required
-                    placeholder="Desciption"></textarea>
+                    placeholder="Desciption"
+                  ></textarea>
                 </div>
                 <div class="col-3"></div>
                 <div class="col-9">
@@ -231,14 +260,16 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-bs-dismiss="modal">
+              data-bs-dismiss="modal"
+            >
               Close
             </button>
             <button
               type="button"
               data-bs-dismiss="modal"
               @click="addTeam()"
-              class="btn btn-primary">
+              class="btn btn-primary"
+            >
               Add Team
             </button>
           </div>
@@ -253,7 +284,8 @@
       id="A4"
       tabindex="-1"
       aria-labelledby="A4"
-      aria-hidden="true">
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -262,7 +294,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <table class="table table-striped table-bordered">
@@ -274,7 +307,8 @@
                     scope="col"
                     v-if="
                       $store.getters.user.id == team_leader && prof_id == null
-                    ">
+                    "
+                  >
                     Action
                   </th>
                 </tr>
@@ -282,16 +316,19 @@
               <tbody>
                 <tr
                   v-for="(availablepro, index) in AvailableProfs"
-                  :key="index">
+                  :key="index"
+                >
                   <td>{{ availablepro.name }}</td>
                   <td>{{ availablepro.email }}</td>
                   <td
                     v-if="
                       $store.getters.user.id == team_leader && prof_id == null
-                    ">
+                    "
+                  >
                     <button
                       class="btn btn-primary"
-                      @click="sendProfRequest(availablepro.id, team_id)">
+                      @click="sendProfRequest(availablepro.id, team_id)"
+                    >
                       Request
                     </button>
                   </td>
@@ -306,9 +343,10 @@
   </div>
 </template>
 <script>
+import { CToaster, CToastBody, CToast, CToastClose } from "@coreui/vue";
 export default {
   name: "teams",
-  components: {},
+  components: { CToaster, CToastBody, CToast, CToastClose },
   beforeCreate() {
     let data = new FormData();
     data.append("email", this.$store.getters.user.email);
@@ -360,6 +398,7 @@ export default {
   },
   data: function () {
     return {
+      msgs: { msg: [], state: true },
       nameCourse: "",
       description: "",
       team_leader: null,
@@ -398,6 +437,8 @@ export default {
         ProDescription: this.CreateTeam.proDesc,
       };
       this.$http.post("Team/AddTeam", (data = data)).then((res) => {
+        this.msgs.state = res.data.state;
+        this.msgs.msg.push({ msg: res.data.msg });
         window.location = "/course/teams/" + data.CourseId;
       });
     },
@@ -413,7 +454,9 @@ export default {
       this.$http
         .post("Notification/sendJoinRequest", (data = data))
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
+          this.msgs.state = res.data.state;
+          this.msgs.msg.push({ msg: res.data.msg });
           this.$http.get("Notification/Pusher_notifiy");
         });
     },
@@ -426,6 +469,8 @@ export default {
       this.$http
         .post("Proffessor/sendJoinRequest", (data = data))
         .then((res) => {
+          this.msgs.state = res.data.state;
+          this.msgs.msg.push({ msg: res.data.msg });
           console.log(res.data);
         });
     },

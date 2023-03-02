@@ -1,6 +1,18 @@
 <template>
   <div class="profile p-3">
     <div class="user-info">
+      <CToaster placement="top-end">
+        <CToast
+          :color="msgs.state ? 'success' : 'danger'"
+          :key="index"
+          v-for="(msg, index) in msgs.msg"
+        >
+          <div class="d-flex">
+            <CToastBody class="text-light">{{ msg.msg }}</CToastBody>
+            <CToastClose class="me-2 m-auto" />
+          </div>
+        </CToast>
+      </CToaster>
       <div class="img">
         <div class="contain-img">
           <img :src="img" />
@@ -13,7 +25,8 @@
           hidden="hidden"
           accept=".jpg"
           ref="file"
-          id="formFile" />
+          id="formFile"
+        />
       </div>
       <div class="info">
         <span class="fs-2 text-secondary fw-bold">{{ student.name }}</span>
@@ -36,13 +49,15 @@
               </div>
               <div
                 v-if="$store.getters.user.role == 'student'"
-                class="col-md-6 col-12">
+                class="col-md-6 col-12"
+              >
                 <span>Semester: </span>
                 <span>{{ student.semester }}</span>
               </div>
               <div
                 v-if="$store.getters.user.role == 'proffessor'"
-                class="col-md-6 col-12">
+                class="col-md-6 col-12"
+              >
                 <span>Team Count: </span>
                 <span>{{ student.teamCount }}</span>
               </div>
@@ -77,7 +92,8 @@
             v-if="myprofile == 'own'"
             class="btn"
             data-bs-toggle="modal"
-            data-bs-target="#A2">
+            data-bs-target="#A2"
+          >
             <fa class="fs-4 text-primary" icon="plus"></fa>
           </button>
         </div>
@@ -86,14 +102,16 @@
             <li
               class="list-group-item d-flex justify-content-between"
               v-for="(skill, index) in skils"
-              :key="index">
+              :key="index"
+            >
               <div>
                 {{ skill.skil }}
               </div>
               <button
                 class="btn"
                 v-if="myprofile == 'own'"
-                @click="deleteSkill(skill.id)">
+                @click="deleteSkill(skill.id)"
+              >
                 <fa class="fs-4 text-danger" icon="trash"></fa>
               </button>
             </li>
@@ -107,7 +125,8 @@
       id="A2"
       tabindex="-1"
       aria-labelledby="A2"
-      aria-hidden="true">
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -115,7 +134,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <form class="was-validated">
@@ -127,7 +147,8 @@
                     v-model="skillname"
                     pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})"
                     required
-                    placeholder="Your Skill" />
+                    placeholder="Your Skill"
+                  />
                 </div>
                 <div class="col-3"></div>
               </div>
@@ -137,14 +158,16 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-bs-dismiss="modal">
+              data-bs-dismiss="modal"
+            >
               Close
             </button>
             <button
               type="button"
               data-bs-dismiss="modal"
               @click="addSkill()"
-              class="btn btn-primary">
+              class="btn btn-primary"
+            >
               Add Skill
             </button>
           </div>
@@ -154,9 +177,10 @@
   </div>
 </template>
 <script>
+import { CToaster, CToastBody, CToast, CToastClose } from "@coreui/vue";
 export default {
   name: "Profile",
-  components: {},
+  components: { CToaster, CToastBody, CToast, CToastClose },
   mounted() {
     let that = this;
     const realFileBtn = document.getElementById("formFile");
@@ -174,6 +198,8 @@ export default {
           that.$http
             .post("User/ChangeImg", formData, { headers })
             .then((res) => {
+              this.msgs.state = res.data.state;
+              this.msgs.msg.push({ msg: res.data.msg });
               if (res.data.state) {
                 that.img = res.data.data;
               }
@@ -189,6 +215,7 @@ export default {
       img: "",
       skillname: "",
       myprofile: "own",
+      msgs: { msg: [], state: true },
     };
   },
   beforeCreate() {
@@ -196,6 +223,8 @@ export default {
     data.append("id", this.$route.params.id);
     data.append("role", this.$route.params.role);
     this.$http.post("User/Profile", (data = data)).then((res) => {
+      // this.msgs.state = res.data.state;
+      // this.msgs.msg.push({ msg: res.data.msg });
       if (res.data.state) {
         this.student = res.data.data.user[0];
         this.img = this.student.img;
@@ -211,6 +240,8 @@ export default {
       let data = new FormData();
       data.append("skill", this.skillname);
       this.$http.post("Student/AddSkill", (data = data)).then((res) => {
+        this.msgs.state = res.data.state;
+        this.msgs.msg.push({ msg: res.data.msg });
         if (res.data.state) {
           this.skils = res.data.data;
         }
@@ -220,6 +251,8 @@ export default {
       let data = new FormData();
       data.append("skill", id_skill);
       this.$http.post("Student/DeleteSkill", (data = data)).then((res) => {
+        this.msgs.state = res.data.state;
+        this.msgs.msg.push({ msg: res.data.msg });
         if (res.data.state) {
           this.skils = res.data.data;
         }

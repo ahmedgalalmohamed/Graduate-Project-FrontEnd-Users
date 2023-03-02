@@ -1,5 +1,17 @@
 <template>
   <div class="container">
+    <CToaster placement="top-end">
+      <CToast
+        :color="msgs.state ? 'success' : 'danger'"
+        :key="index"
+        v-for="(msg, index) in msgs.msg"
+      >
+        <div class="d-flex">
+          <CToastBody class="text-light">{{ msg.msg }}</CToastBody>
+          <CToastClose class="me-2 m-auto" />
+        </div>
+      </CToast>
+    </CToaster>
     <div class="left">
       <h3>Change Password</h3>
       <p class="my-3">Password must contain:</p>
@@ -31,7 +43,8 @@
               v-model="user.oldpass"
               type="password"
               required
-              pattern="[a-zA-Z0-9!@#$%^&*\\/)(+=._-]{8,}" />
+              pattern="[a-zA-Z0-9!@#$%^&*\\/)(+=._-]{8,}"
+            />
           </div>
         </div>
 
@@ -43,7 +56,8 @@
               v-model="user.newpass"
               type="password"
               required
-              pattern="[a-zA-Z0-9!@#$%^&*\\/)(+=._-]{8,}" />
+              pattern="[a-zA-Z0-9!@#$%^&*\\/)(+=._-]{8,}"
+            />
           </div>
         </div>
 
@@ -55,7 +69,8 @@
               v-model="user.confirmpass"
               type="password"
               required
-              pattern="[a-zA-Z0-9!@#$%^&*\\/)(+=._-]{8,}" />
+              pattern="[a-zA-Z0-9!@#$%^&*\\/)(+=._-]{8,}"
+            />
           </div>
         </div>
 
@@ -72,11 +87,13 @@
 </template>
 
 <script>
+import { CToaster, CToastBody, CToast, CToastClose } from "@coreui/vue";
 export default {
   name: "UpdatePassword",
-  components: {},
+  components: { CToaster, CToastBody, CToast, CToastClose },
   data() {
     return {
+      msgs: { msg: [], state: true },
       user: { newpass: "", oldpass: "", confirmpass: "" },
     };
   },
@@ -91,6 +108,8 @@ export default {
       data.append("newPass", this.user.newpass);
       this.$http.post("User/EditPassword", (data = data)).then((res) => {
         this.user = {};
+        this.msgs.state = res.data.state;
+        this.msgs.msg.push({ msg: res.data.msg });
       });
     },
   },

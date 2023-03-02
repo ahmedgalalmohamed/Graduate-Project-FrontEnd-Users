@@ -1,5 +1,17 @@
 <template>
   <div class="myTeam p-3">
+    <CToaster placement="top-end">
+      <CToast
+        :color="msgs.state ? 'success' : 'danger'"
+        :key="index"
+        v-for="(msg, index) in msgs.msg"
+      >
+        <div class="d-flex">
+          <CToastBody class="text-light">{{ msg.msg }}</CToastBody>
+          <CToastClose class="me-2 m-auto" />
+        </div>
+      </CToast>
+    </CToaster>
     <table class="table table-striped table-bordered border-secondary">
       <thead>
         <tr class="table-dark">
@@ -20,19 +32,24 @@
         </tr>
       </tbody>
     </table>
-    <div class="float-end" v-if="
-      $store.getters.user.id != leader.studentID &&
-      $store.getters.user.role == 'student'
-    ">
+    <div
+      class="float-end"
+      v-if="
+        $store.getters.user.id != leader.studentID &&
+        $store.getters.user.role == 'student'
+      "
+    >
       <button class="btn btn-danger" @click="LeaveTeam()">Leave</button>
     </div>
   </div>
 </template>
 
 <script>
+import { CToaster, CToastBody, CToast, CToastClose } from "@coreui/vue";
+
 export default {
   name: "MyTeam",
-  components: {},
+  components: { CToaster, CToastBody, CToast, CToastClose },
   beforeCreate() {
     let data = new FormData();
     data.append("id", this.$route.params.id);
@@ -45,9 +62,10 @@ export default {
       }
     });
   },
-  created() { },
+  created() {},
   data: function () {
     return {
+      msgs: { msg: [], state: true },
       leader: "",
       members: "",
     };
@@ -58,6 +76,8 @@ export default {
       data.append("t_id", this.leader.teamId);
       data.append("id", this.$store.getters.user.id);
       this.$http.post("Team/leaveTeam", (data = data)).then((res) => {
+        this.msgs.state = res.data.state;
+        this.msgs.msg.push({ msg: res.data.msg });
         if (res.data.state) {
           this.$router.push("/course");
         }
