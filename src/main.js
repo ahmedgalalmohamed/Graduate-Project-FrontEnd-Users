@@ -5,7 +5,7 @@ import store from "./store";
 import axios from "axios";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import VueCookies from "vue-cookies";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -36,12 +36,16 @@ axios.interceptors.response.use(
       store.commit("logout");
       router.push("/login");
     }
+    if (error.response.status === 400) {
+      router.push("/");
+    }
     return Promise.reject(error);
   }
 );
 
 const app = createApp(Root);
 app.config.globalProperties.$http = axios;
+app.use(VueCookies);
 app.use(store);
 app.component("fa", FontAwesomeIcon);
 app.use(router);

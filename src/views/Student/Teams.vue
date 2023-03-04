@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3">
+  <div class="p-3" v-if="msgs.state">
     <div class="accordion accordion-flush" id="accordionFlushExample">
       <div class="accordion-item">
         <CToaster placement="top-end">
@@ -235,7 +235,7 @@ export default {
     data.append("email", this.$store.getters.user.email);
     data.append("id", this.$route.params.id);
     this.$http.post("Course/getCourse", (data = data)).then((res) => {
-      console.log(res.data);
+      this.msgs.state = res.data.state;
       if (res.data.state) {
         this.description = res.data.data.description;
         this.nameCourse = res.data.data.name;
@@ -251,6 +251,8 @@ export default {
           this.teams[2].state = false;
         } else this.teams[3].state = false;
       }
+      else
+        this.$router.push('/');
     });
   },
   created() {
@@ -281,7 +283,7 @@ export default {
   },
   data: function () {
     return {
-      msgs: { msg: [], state: true },
+      msgs: { msg: [], state: false },
       nameCourse: "",
       description: "",
       team_leader: null,

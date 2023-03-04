@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import auth from "../../auth/auth";
-import store from "../store/index";
 import axios from "axios";
 const routes = [
   {
@@ -36,7 +35,7 @@ const routes = [
     name: "Courses",
     component: () => import("../views/Student/Courses.vue"),
     beforeEnter: (to, from, next) => {
-      if (store.getters.user.role == "student") next();
+      if (window.$cookies.get("user").role == "student") next();
       else next("/");
     },
   },
@@ -45,7 +44,7 @@ const routes = [
     name: "teams",
     component: () => import("../views/Student/Teams.vue"),
     beforeEnter: (to, from, next) => {
-      if (store.getters.user.role == "student") next();
+      if (window.$cookies.get("user").role == "student") next();
       else next("/");
     },
   },
@@ -53,15 +52,15 @@ const routes = [
     path: "/myteam/:id",
     name: "MyTeam",
     component: () => import("../views/Student/MyTeam.vue"),
-    // beforeEnter: (to, from, next) => {
-    //   if(store.getters.user.role == 'student') next();
-    //   else next('/');
-    //   },
   },
   {
     path: "/proffessor/myteams",
     name: "Proffessor_Myteams",
     component: () => import("../views/Professor/Teams.vue"),
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.get("user").role == "professor") next();
+      else next("/");
+    },
   },
   {
     path: "/login",

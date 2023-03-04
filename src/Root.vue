@@ -15,13 +15,7 @@ export default {
   name: "App",
   components: { Header },
   beforeCreate() {
-    this.$http.defaults.headers.common["Authorization"] =
-      "Bearer " + localStorage.getItem("token");
-    if (localStorage.getItem("token")) {
-      this.$http.get("User/myProfile").then((res) => {
-        if (res.data.state) this.$store.dispatch("user", res.data.data);
-      });
-    }
+    this.$store.dispatch("user", this.$cookies.get("user"));
   },
   created() {
     if (!this.$store.state.userlogin) {
@@ -49,22 +43,27 @@ export default {
   --font-family-page: "Merienda";
   --bs-link-hover-color: #fff !important;
 }
+
 .active {
   background-color: #f5f5f5;
   color: var(--dark) !important;
 }
+
 .sub-router {
   color: var(--light) !important;
 }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: var(--font-family-page);
 }
+
 .Invalid {
   color: red;
 }
+
 button,
 .bt,
 a {
@@ -78,9 +77,11 @@ a {
   background-image: url("@/assets/bg.png");
   background-size: cover;
 }
+
 .imghome {
   background-color: #f5f5f5;
 }
+
 .root {
   display: flex;
   flex-direction: column;
@@ -89,11 +90,13 @@ a {
   .main {
     display: flex;
     height: calc(100vh - 4rem);
+
     .contain {
       width: 100%;
       // padding: 20px;
     }
   }
+
   .log-root {
     width: 90px;
   }
@@ -103,10 +106,12 @@ a {
       overflow: auto;
     }
   }
+
   @media (min-width: 769px) {
     .contain {
       overflow-x: hidden;
     }
+
     .side {
       min-width: 250px;
     }

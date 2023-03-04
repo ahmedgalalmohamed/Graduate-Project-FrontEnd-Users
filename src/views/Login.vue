@@ -4,10 +4,7 @@
       <div class="form-create col-12">
         <div class="">
           <CToaster placement="top-end">
-            <CToast
-              :color="msgs.state ? 'success' : 'danger'"
-              :key="index"
-              v-for="(msg, index) in msgs.msg">
+            <CToast :color="msgs.state ? 'success' : 'danger'" :key="index" v-for="(msg, index) in msgs.msg">
               <div class="d-flex">
                 <CToastBody class="text-light">{{ msg.msg }}</CToastBody>
                 <CToastClose class="me-2 m-auto" />
@@ -28,13 +25,8 @@
                 <div class="row mb-3">
                   <label class="col-sm-3 col-form-label">Email</label>
                   <div class="col-sm-9">
-                    <input
-                      class="form-control"
-                      v-model="user.email"
-                      type="email"
-                      pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
-                      required
-                      placeholder="Email" />
+                    <input class="form-control" v-model="user.email" type="email" pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
+                      required placeholder="Email" />
                   </div>
                   <div class="col-3"></div>
                 </div>
@@ -42,13 +34,8 @@
                 <div class="row mb-3">
                   <label class="col-sm-3 col-form-label">Password</label>
                   <div class="col-sm-9">
-                    <input
-                      class="form-control"
-                      v-model="user.pass"
-                      type="password"
-                      required
-                      pattern="[a-zA-Z0-9!@#$%^&*\\/)(+=._-]{8,}"
-                      placeholder="Password" />
+                    <input class="form-control" v-model="user.pass" type="password" required
+                      pattern="[a-zA-Z0-9!@#$%^&*\\/)(+=._-]{8,}" placeholder="Password" />
                   </div>
                   <div class="col-3"></div>
                 </div>
@@ -67,12 +54,7 @@
                 <div class="row mb-3">
                   <div class="col-sm-5 col-4"></div>
                   <div class="col-sm-7 col-8">
-                    <input
-                      type="button"
-                      id="signupbtn"
-                      class="btn btn-primary mx-1"
-                      @click="submit()"
-                      value="Login" />
+                    <input type="button" id="signupbtn" class="btn btn-primary mx-1" @click="submit()" value="Login" />
                   </div>
                 </div>
               </form>
@@ -130,6 +112,7 @@ export default {
         if (res.data.state) {
           localStorage.setItem("token", res.data.token);
           this.$store.commit("login");
+          this.$cookies.set("user", res.data.data);
           this.$store.dispatch("user", res.data.data);
           window.location = "/";
         }
@@ -141,15 +124,19 @@ export default {
 <style lang="scss">
 .login {
   height: 100%;
+
   .row-login {
     height: 100%;
+
     .form-create {
       margin-top: auto;
       margin-bottom: auto;
+
       .container {
         display: flex;
         width: 70%;
         padding: 0px;
+
         .left {
           display: flex;
           background-color: white;
@@ -157,16 +144,20 @@ export default {
           justify-content: center;
           box-shadow: 1px 1px 5px 2px #888888;
           border-radius: 10px 0px 0px 10px;
+
           .logo {
             align-self: center;
+
             .log {
               width: 12rem;
             }
           }
         }
+
         #signupbtn {
           border: 2px solid #eee;
         }
+
         .right {
           width: 60%;
           background-color: #1a73e8;
@@ -179,13 +170,16 @@ export default {
     }
   }
 }
+
 @media (max-width: 850px) {
   .container {
     width: 100% !important;
   }
+
   .left {
     display: none !important;
   }
+
   .right {
     flex: 1;
     border-radius: 10px !important;

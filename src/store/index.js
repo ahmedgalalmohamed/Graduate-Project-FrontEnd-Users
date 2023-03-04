@@ -19,6 +19,7 @@ export default createStore({
     },
     logout(state) {
       state.userlogin = false;
+      window.$cookies.remove("user");
       localStorage.removeItem("token");
     },
   },

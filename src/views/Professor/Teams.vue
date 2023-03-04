@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3">
+  <div class="p-3" v-if="state">
     <div class="fs-2">
       <fa class="mx-3" icon="book"></fa>
       <span>My Teams</span>
@@ -27,9 +27,7 @@
               </tr>
             </thead>
           </div>
-          <button
-            class="btn btn-primary"
-            @click="this.$router.push(`/myteam/${team.id}`)">
+          <button class="btn btn-primary" @click="this.$router.push(`/myteam/${team.id}`)">
             Continue
           </button>
         </div>
@@ -44,14 +42,19 @@ export default {
   data: function () {
     return {
       teams: null,
+      state: false,
     };
   },
 
   beforeCreate() {
     this.$http.get("Proffessor/MyTeams").then((res) => {
+      console.log(res.data);
       if (res.data.state) {
+        this.state = res.data.state;
         this.teams = res.data.data;
       }
+      else
+        this.$router.push('/');
     });
   },
 };
@@ -64,6 +67,7 @@ export default {
   text-overflow: ellipsis;
   width: 10rem;
 }
+
 .card {
   border: none;
   margin: 10px;

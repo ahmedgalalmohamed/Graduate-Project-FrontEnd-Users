@@ -181,6 +181,8 @@ export default {
         this.skillname = "";
         this.myprofile = res.data.msg;
       }
+      else
+        this.$router.push('/');
     });
   },
   computed: {},

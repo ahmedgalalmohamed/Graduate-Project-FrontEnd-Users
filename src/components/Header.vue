@@ -201,11 +201,7 @@ export default {
           this.Notifications.notification = res.data.data.notification;
         }
         this.$http.get("Notification/Pusher_notifiy");
-        this.rand = Math.random();
       });
-    },
-    sss() {
-      console.log(this.Notifications);
     },
   },
 };
