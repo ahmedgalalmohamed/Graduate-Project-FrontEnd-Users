@@ -95,7 +95,7 @@ a {
     }
   }
   .log-root {
-    width: 90px;
+    width: 72px;
   }
 
   @media (max-width: 768px) {

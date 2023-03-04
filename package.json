@@ -23,6 +23,7 @@
     "pusher-js": "^7.6.0",
     "vue": "^3.2.47",
     "vue-multiselect": "^3.0.0-alpha.2",
+    "vue-owl-carousel": "^2.0.3",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },
