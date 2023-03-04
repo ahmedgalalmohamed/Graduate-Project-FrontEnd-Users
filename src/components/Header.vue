@@ -1,7 +1,7 @@
 <template>
   <div class="heade">
     <div class="img">
-      <img class="log-root" src="@/assets/logo2.png" />
+      <a><img class="log-root" src="@/assets/logo2.png" @click="$router.push('/')" /></a>
     </div>
     <div class="links">
       <nav class="navbar navbar-expand">
