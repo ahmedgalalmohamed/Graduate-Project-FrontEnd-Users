@@ -91,7 +91,6 @@ export default {
       msgs: { msg: [], state: true },
     };
   },
-
   methods: {
     submit() {
       if (!(this.emailIsValid && this.passIsValid)) {
@@ -110,9 +109,12 @@ export default {
           this.msgs.state = res.data.state;
         }
         if (res.data.state) {
-          localStorage.setItem("token", res.data.token);
+		 var now = new Date();
+               var minutes = res.data.data.exp;
+               now.setTime(now.getTime() + (minutes * 60 * 1000));
+          localStorage.setItem("token",res.data.token);
           this.$store.commit("login");
-          this.$cookies.set("user", res.data.data);
+          this.$cookies.set("user", res.data.data,res.data.token,now.toUTCString());
           this.$store.dispatch("user", res.data.data);
           window.location = "/";
         }
