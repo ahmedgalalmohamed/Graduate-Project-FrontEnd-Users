@@ -39,7 +39,7 @@ export default {
   --dark-light: rgb(146, 145, 145);
   --primary: #28a745;
   --light: #fff;
-
+  --gray: #505050;
   --font-family-page: "Merienda";
   --bs-link-hover-color: #fff !important;
 }
@@ -59,10 +59,15 @@ export default {
   box-sizing: border-box;
   font-family: var(--font-family-page);
 }
+div,span{
+  color: var(--gray) !important;
+}
 
 .Invalid {
   color: red;
 }
+
+
 
 button,
 .bt,

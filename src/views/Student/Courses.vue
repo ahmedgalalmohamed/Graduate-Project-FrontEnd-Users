@@ -27,9 +27,7 @@
               </tr>
             </thead>
           </div>
-          <button
-            class="btn btn-primary"
-            @click="this.$router.push(`/course/teams/${cour.id}`)">
+          <button class="btn btn-primary" @click="SwitchTeam(cour.id)">
             Continue
           </button>
         </div>
@@ -53,7 +51,14 @@ export default {
       this.courses = res.data.data;
     });
   },
-  methods: {},
+  methods: {
+    SwitchTeam(id) {
+      if (this.$store.getters.user.role == 'instructor')
+        this.$router.push(`/instructor/myteams/${id}`)
+      else
+        this.$router.push(`/course/teams/${id}`);
+    }
+  },
 };
 </script>
 
@@ -68,16 +73,17 @@ export default {
 .card {
   border: none;
   margin: 10px;
-  
+
 }
+
 .cards {
   flex-wrap: wrap;
 }
+
 .card-body {
   background-color: var(--light);
   box-shadow: 1px 1px 5px 2px #888888;
   border-radius: 10px;
   width: 20rem;
 }
-
 </style>

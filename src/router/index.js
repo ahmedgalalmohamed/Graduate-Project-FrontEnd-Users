@@ -35,7 +35,7 @@ const routes = [
     name: "Courses",
     component: () => import("../views/Student/Courses.vue"),
     beforeEnter: (to, from, next) => {
-      if (window.$cookies.get("user").role == "student") next();
+      if (window.$cookies.get("user").role != "proffessor") next();
       else next("/");
     },
   },
@@ -58,7 +58,16 @@ const routes = [
     name: "Proffessor_Myteams",
     component: () => import("../views/Professor/Teams.vue"),
     beforeEnter: (to, from, next) => {
-      if (window.$cookies.get("user").role == "professor") next();
+      if (window.$cookies.get("user").role == "proffessor") next();
+      else next("/");
+    },
+  },
+  {
+    path: "/instructor/myteams/:id",
+    name: "Instructor_Myteams",
+    component: () => import("../views/Instructor/Teams.vue"),
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.get("user").role == "instructor") next();
       else next("/");
     },
   },

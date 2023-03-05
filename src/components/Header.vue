@@ -7,7 +7,7 @@
       <nav class="navbar navbar-expand">
         <div class="right">
           <ul class="navbar-nav" :key="Notifications.count">
-            <li class="nav-item dropstart">
+            <li class="nav-item dropstart" v-if="$store.getters.user.role != 'instructor'">
               <a class="nav-link sub-router" aria-expanded="false" data-bs-toggle="dropdown">
                 <div class="position-relative">
                   <fa class="fs-3" icon="bell"></fa>
@@ -84,7 +84,7 @@
                     Edit Password
                   </a>
                 </li>
-                <li class="" v-if="$store.getters.user.role == 'student'">
+                <li class="" v-if="$store.getters.user.role != 'proffessor'">
                   <a class="nav-link text-black" href="javascript:void(0)" @click="$router.push('/course')">
                     <fa icon="book"></fa>
                     My Courses
@@ -117,17 +117,19 @@ export default {
   name: "App",
   components: {},
   beforeCreate() {
-    this.$http.defaults.headers.common["Authorization"] =
-      "Bearer " + localStorage.getItem("token");
-    if (localStorage.getItem("token")) {
-      this.$http.post("Notification/getNotification").then((res) => {
-        this.rand = Math.random();
-        console.log(res.data);
-        if (res.data.state) {
-          this.Notifications.count = res.data.data.count;
-          this.Notifications.notification = res.data.data.senders;
-        }
-      });
+    if (this.$cookies.get('user').role != 'instructor') {
+      this.$http.defaults.headers.common["Authorization"] =
+        "Bearer " + localStorage.getItem("token");
+      if (localStorage.getItem("token")) {
+        this.$http.post("Notification/getNotification").then((res) => {
+          this.rand = Math.random();
+          console.log(res.data);
+          if (res.data.state) {
+            this.Notifications.count = res.data.data.count;
+            this.Notifications.notification = res.data.data.senders;
+          }
+        });
+      }
     }
   },
   created() {
@@ -260,6 +262,12 @@ export default {
         }
       }
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .links {
+    width: 20% !important;
   }
 }
 </style>
