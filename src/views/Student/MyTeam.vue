@@ -2,7 +2,7 @@
   <div class="myTeam p-3" v-if="state">
     <div class="fs-2">
 
-      <a @click="$router.push('/course/teams/1')">
+      <a @click="$router.push(`/course/teams/${leader.courseID}`)">
         <fa class="" icon="book"></fa>
         {{ leader.course }}
       </a>
