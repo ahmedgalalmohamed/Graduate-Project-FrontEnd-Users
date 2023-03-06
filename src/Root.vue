@@ -40,6 +40,7 @@ export default {
   --primary: #28a745;
   --light: #fff;
   --gray: #505050;
+  --main-color: #1a73e8;
   --font-family-page: "Merienda";
   --bs-link-hover-color: #fff !important;
 }

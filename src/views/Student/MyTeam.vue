@@ -1,6 +1,14 @@
 <template>
   <div class="myTeam p-3" v-if="state">
-    <table class="table table-striped table-bordered border-secondary">
+    <div class="fs-2">
+
+      <a @click="$router.push('/course/teams/1')">
+        <fa class="" icon="book"></fa>
+        {{ leader.course }}
+      </a>
+      <span> / {{ leader.team }}</span>
+    </div>
+    <table class="table table-striped table-bordered border-secondary my-3">
       <thead>
         <tr class="table-dark">
           <th scope="col">Name</th>
@@ -37,6 +45,7 @@ export default {
     let data = new FormData();
     data.append("id", this.$route.params.id);
     this.$http.post("team/getMyTeam", (data = data)).then((res) => {
+      console.log(res.data);
       if (res.data.state) {
         this.leader = res.data.data.leader[0];
         this.members = res.data.data.members;
@@ -70,6 +79,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+a:hover {
+  color: var(--main-color) !important;
+  border-bottom: 2px solid var(--main-color);
+}
+
 .myTeam {
   color: #888888;
 }

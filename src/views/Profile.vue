@@ -245,7 +245,9 @@ export default {
 
       img {
         width: 100%;
-        max-height: 200px;
+        max-height: 250px;
+        padding: 2px;
+        box-shadow: 0px 0px 15px 0px #aaa;
         border-radius: 50%;
       }
     }

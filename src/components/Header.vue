@@ -211,7 +211,7 @@ export default {
 
 <style lang="scss" scoped>
 .heade {
-  background-color: #1a73e8;
+  background-color: var(--main-color);
   display: flex;
   justify-content: space-around;
   min-height: 3rem;
