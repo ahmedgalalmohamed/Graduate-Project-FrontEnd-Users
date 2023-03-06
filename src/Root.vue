@@ -59,9 +59,6 @@ export default {
   box-sizing: border-box;
   font-family: var(--font-family-page);
 }
-div,span{
-  color: var(--gray) !important;
-}
 
 .Invalid {
   color: red;
