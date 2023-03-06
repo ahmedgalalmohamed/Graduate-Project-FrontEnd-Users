@@ -56,6 +56,17 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <div class="">
+              <div class="d-flex py-1 justify-content-end my-1" role="search">
+                <div class="input-group mb-3">
+                <input class="form-control w-75" type="search" v-model="searchteam" placeholder="Search" aria-label="Search" />
+                <select class="form-control" v-model="searchteamfilter">
+                  <option value="1" selected>Team Name</option>
+                  <option value="2">Leader Name</option>
+                </select>
+              </div>
+              </div>
+            </div>
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -65,7 +76,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(availableteam, index) in AvailableTeams" :key="index">
+                <tr v-for="(availableteam, index) in filteredTeamsList" :key="index">
                   <td>{{ availableteam.name }}</td>
                   <td>{{ availableteam.leader }}</td>
                   <td v-if="team_id == null">
@@ -93,6 +104,17 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <div class="">
+              <div class="d-flex py-1 justify-content-end my-1" role="search">
+                <div class="input-group mb-3">
+                <input class="form-control w-75" type="search" v-model="searchstd" placeholder="Search" aria-label="Search" />
+                <select class="form-control" v-model="searchstdfilter">
+                  <option value="1" selected>Name</option>
+                  <option value="2">Email</option>
+                </select>
+              </div>
+              </div>
+            </div>
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -104,7 +126,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(availablestd, index) in AvailableStudents" :key="index">
+                <tr v-for="(availablestd, index) in filteredStudentList" :key="index">
                   <td>{{ availablestd.name }}</td>
                   <td>{{ availablestd.email }}</td>
                   <td v-if="$store.getters.user.id == team_leader">
@@ -192,6 +214,17 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <div class="">
+              <div class="d-flex py-1 justify-content-end my-1" role="search">
+                <div class="input-group mb-3">
+                <input class="form-control w-75" type="search" v-model="searchprof" placeholder="Search" aria-label="Search" />
+                <select class="form-control" v-model="searchproffilter">
+                  <option value="1" selected>Name</option>
+                  <option value="2">Email</option>
+                </select>
+              </div>
+              </div>
+            </div>
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -205,7 +238,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(availablepro, index) in AvailableProfs" :key="index">
+                <tr v-for="(availablepro, index) in filteredProfList" :key="index">
                   <td>{{ availablepro.name }}</td>
                   <td>{{ availablepro.email }}</td>
                   <td v-if="
@@ -286,6 +319,12 @@ export default {
       msgs: { msg: [], state: false },
       nameCourse: "",
       description: "",
+      searchstd: "",
+      searchteam: "",
+      searchprof: "",
+      searchstdfilter: "1",
+      searchteamfilter: "1",
+      searchproffilter: "1",
       team_leader: null,
       team_id: null,
       prof_id: null,
@@ -360,7 +399,50 @@ export default {
         });
     },
   },
-};
+  computed: {
+    filteredStudentList() {
+      switch(this.searchstdfilter){
+        case "1":
+          return this.AvailableStudents.filter((student) => {
+            return student.name.toLowerCase().includes(this.searchstd.toLowerCase());
+        });
+      break;
+      case "2":
+        return this.AvailableStudents.filter((student) => {
+          return student.email.toLowerCase().includes(this.searchstd.toLowerCase());
+        });
+      }
+    },
+
+    filteredTeamsList() {
+      switch(this.searchteamfilter){
+        case "1":
+          return this.AvailableTeams.filter((team) => {
+            return team.name.toLowerCase().includes(this.searchteam.toLowerCase());
+        });
+      break;
+      case "2":
+        return this.AvailableTeams.filter((team) => {
+          return team.leader.toLowerCase().includes(this.searchteam.toLowerCase());
+        });
+      }
+    },
+
+    filteredProfList() {
+      switch(this.searchproffilter){
+        case "1":
+          return this.AvailableProfs.filter((prof) => {
+            return prof.name.toLowerCase().includes(this.searchprof.toLowerCase());
+        });
+      break;
+      case "2":
+        return this.AvailableProfs.filter((prof) => {
+          return prof.email.toLowerCase().includes(this.searchprof.toLowerCase());
+        });
+      }
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
