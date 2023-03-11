@@ -10,10 +10,15 @@
             </div>
           </CToast>
         </CToaster>
+        <div class="Links">
+          <span><a @click="$router.push(`/home`)"><fa class="mx-2" icon="home"></fa>/</a></span>
+          <span><a @click="$router.push(`/course`)"> My Courses /</a></span>
+        </div>
         <h2 class="accordion-header" id="flush-headingOne">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
             data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-            <div style="font-size: 42px; margin-bottom: 15px">
+            <div style="font-size: calc(1.325rem + .9vw)!important; margin-bottom: 15px">
+              
               <fa class="mx-3" icon="laptop-code"></fa>
               <span>{{ nameCourse }}</span>
             </div>
@@ -450,6 +455,19 @@ export default {
 .accordion-body {
   color: #000;
   background-color: #f5f5f5;
+}
+
+.Links {
+  color: #000;
+  background-color: #f5f5f5;
+  font-size: 1.2rem;
+  margin-top: -14px;
+  margin-left: -10px;
+}
+
+a:hover {
+  color: var(--main-color) !important;
+  border-bottom: 2px solid var(--main-color);
 }
 
 .card {

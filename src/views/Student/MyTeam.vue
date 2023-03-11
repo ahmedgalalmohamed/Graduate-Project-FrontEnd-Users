@@ -1,12 +1,27 @@
 <template>
   <div class="myTeam p-3" v-if="state">
-    <div class="fs-2">
-
+    <div class="Links">
+      <a @click="$router.push(`/home`)">
+        <fa class="" icon="home"></fa>
+        <!--Home-->
+      </a>
+      /
+      <a @click="$router.push(`/course`)">
+        
+        <!-- <fa class="" icon="book"></fa> -->
+        My Courses
+      </a>
+      /
       <a @click="$router.push(`/course/teams/${leader.courseID}`)">
-        <fa class="" icon="book"></fa>
+        
+        <!-- <fa class="" icon="laptop-code"></fa> -->
         {{ leader.course }}
       </a>
-      <span> / {{ leader.team }}</span>
+    </div>
+    <div class="fs-2">
+      <span>{{ leader.team }}</span>
+      <button type="button" v-if="tf == 0" class="btn btn-primary float-end" @click="tf=1">Team is not Complete</button>
+      <button type="button" v-if="tf == 1" class="btn btn-danger float-end" @click="tf=0">Team is Complete</button>
     </div>
     <table class="table table-striped table-bordered border-secondary my-3">
       <thead>
@@ -60,7 +75,8 @@ export default {
     return {
       leader: "",
       members: "",
-      state: false
+      state: false,
+      tf:0
     };
   },
   methods: {
@@ -82,6 +98,14 @@ export default {
 a:hover {
   color: var(--main-color) !important;
   border-bottom: 2px solid var(--main-color);
+}
+
+.Links {
+  color: #000;
+  background-color: #f5f5f5;
+  font-size: 1.2rem;
+  margin-top: -14px;
+  margin-left: -10px;
 }
 
 .myTeam {

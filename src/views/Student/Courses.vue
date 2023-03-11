@@ -1,5 +1,8 @@
 <template>
   <div class="p-3">
+    <div class="Links">
+      <span><a><fa class="mx-2" icon="home"></fa>Home /</a></span>
+    </div>
     <div class="fs-2">
       <fa class="mx-3" icon="book"></fa>
       <span>My Courses</span>
@@ -63,6 +66,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+a:hover {
+  color: var(--main-color) !important;
+  border-bottom: 2px solid var(--main-color);
+}
+
+.Links {
+  color: #000;
+  background-color: #f5f5f5;
+  font-size: 1.2rem;
+  margin-top: -14px;
+  margin-left: -15px;
+
+}
+
 .desc {
   white-space: nowrap;
   overflow: hidden;

@@ -109,8 +109,8 @@ export default {
           this.msgs.state = res.data.state;
         }
         if (res.data.state) {
-		 var now = new Date();
-               var minutes = res.data.data.exp;
+		var now = new Date();
+              var minutes = res.data.data.exp;
                now.setTime(now.getTime() + (minutes * 60 * 1000));
           localStorage.setItem("token",res.data.token);
           this.$store.commit("login");

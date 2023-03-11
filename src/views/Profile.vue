@@ -1,4 +1,7 @@
 <template>
+  <div class="Links">
+          <span><a @click="$router.push(`/home`)"><fa class="mx-2" icon="home"></fa>Home /</a></span>
+  </div>
   <div class="profile p-3">
     <div class="user-info">
       <CToaster placement="top-end">
@@ -213,11 +216,24 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+
+.Links {
+  color: #000;
+  background-color: #f5f5f5;
+  font-size: 1.2rem;
+}
+
+a:hover {
+  color: var(--main-color) !important;
+  border-bottom: 2px solid var(--main-color);
+}
+
 .profile {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0;
+
 
   .user-info {
     display: flex;
