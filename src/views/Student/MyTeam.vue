@@ -7,21 +7,27 @@
       </a>
       /
       <a @click="$router.push(`/course`)">
-        
         <!-- <fa class="" icon="book"></fa> -->
         My Courses
       </a>
       /
       <a @click="$router.push(`/course/teams/${leader.courseID}`)">
-        
         <!-- <fa class="" icon="laptop-code"></fa> -->
         {{ leader.course }}
       </a>
     </div>
     <div class="fs-2">
       <span>{{ leader.team }}</span>
-      <button type="button" v-if="tf == 0" class="btn btn-primary float-end" @click="tf=1">Team is not Complete</button>
-      <button type="button" v-if="tf == 1" class="btn btn-danger float-end" @click="tf=0">Team is Complete</button>
+      <button
+        type="button"
+        v-if="leader.studentID == this.$cookies.get('user').id"
+        :class="
+          complete ? 'btn btn-primary float-end' : 'btn btn-danger float-end'
+        "
+        @click="SetComplete()"
+      >
+      {{complete?'Team is Complete':'Team is not Complete'}} 
+      </button>
     </div>
     <table class="table table-striped table-bordered border-secondary my-3">
       <thead>
@@ -43,10 +49,13 @@
         </tr>
       </tbody>
     </table>
-    <div class="float-end" v-if="
-      $store.getters.user.id != leader.studentID &&
-      $store.getters.user.role == 'student'
-    ">
+    <div
+      class="float-end"
+      v-if="
+        $store.getters.user.id != leader.studentID &&
+        $store.getters.user.role == 'student'
+      "
+    >
       <button class="btn btn-danger" @click="LeaveTeam()">Leave</button>
     </div>
   </div>
@@ -63,6 +72,7 @@ export default {
       console.log(res.data);
       if (res.data.state) {
         this.leader = res.data.data.leader[0];
+        this.complete = this.leader.isComplete;
         this.members = res.data.data.members;
         this.state = res.data.state;
       } else {
@@ -70,13 +80,13 @@ export default {
       }
     });
   },
-  created() { },
+  created() {},
   data: function () {
     return {
       leader: "",
       members: "",
       state: false,
-      tf:0
+      complete: false,
     };
   },
   methods: {
@@ -87,6 +97,17 @@ export default {
       this.$http.post("Team/leaveTeam", (data = data)).then((res) => {
         if (res.data.state) {
           this.$router.push("/course");
+        }
+      });
+    },
+    SetComplete() {
+      let data = new FormData();
+      data.append("id", this.leader.teamId);
+      data.append("complete", !this.complete);
+      this.$http.post("Team/SetComplete", (data = data)).then((res) => {
+        console.log(res.data);
+        if (res.data.state) {
+          this.complete = res.data.data;
         }
       });
     },
