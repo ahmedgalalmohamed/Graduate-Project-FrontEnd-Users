@@ -11,14 +11,16 @@
           </CToast>
         </CToaster>
         <div class="Links">
-          <span><a @click="$router.push(`/home`)"><fa class="mx-2" icon="home"></fa>/</a></span>
+          <span><a @click="$router.push(`/home`)">
+              <fa class="mx-2" icon="home"></fa>/
+            </a></span>
           <span><a @click="$router.push(`/course`)"> My Courses /</a></span>
         </div>
         <h2 class="accordion-header" id="flush-headingOne">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
             data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
             <div style="font-size: calc(1.325rem + .9vw)!important; margin-bottom: 15px">
-              
+
               <fa class="mx-3" icon="laptop-code"></fa>
               <span>{{ nameCourse }}</span>
             </div>
@@ -64,12 +66,13 @@
             <div class="">
               <div class="d-flex py-1 justify-content-end my-1" role="search">
                 <div class="input-group mb-3">
-                <input class="form-control w-75" type="search" v-model="searchteam" placeholder="Search" aria-label="Search" />
-                <select class="form-control" v-model="searchteamfilter">
-                  <option value="1" selected>Team Name</option>
-                  <option value="2">Leader Name</option>
-                </select>
-              </div>
+                  <input class="form-control w-75" type="search" v-model="searchteam" placeholder="Search"
+                    aria-label="Search" />
+                  <select class="form-control" v-model="searchteamfilter">
+                    <option value="1" selected>Team Name</option>
+                    <option value="2">Leader Name</option>
+                  </select>
+                </div>
               </div>
             </div>
             <table class="table table-striped table-bordered">
@@ -112,12 +115,13 @@
             <div class="">
               <div class="d-flex py-1 justify-content-end my-1" role="search">
                 <div class="input-group mb-3">
-                <input class="form-control w-75" type="search" v-model="searchstd" placeholder="Search" aria-label="Search" />
-                <select class="form-control" v-model="searchstdfilter">
-                  <option value="1" selected>Name</option>
-                  <option value="2">Email</option>
-                </select>
-              </div>
+                  <input class="form-control w-75" type="search" v-model="searchstd" placeholder="Search"
+                    aria-label="Search" />
+                  <select class="form-control" v-model="searchstdfilter">
+                    <option value="1" selected>Name</option>
+                    <option value="2">Email</option>
+                  </select>
+                </div>
               </div>
             </div>
             <table class="table table-striped table-bordered">
@@ -222,12 +226,13 @@
             <div class="">
               <div class="d-flex py-1 justify-content-end my-1" role="search">
                 <div class="input-group mb-3">
-                <input class="form-control w-75" type="search" v-model="searchprof" placeholder="Search" aria-label="Search" />
-                <select class="form-control" v-model="searchproffilter">
-                  <option value="1" selected>Name</option>
-                  <option value="2">Email</option>
-                </select>
-              </div>
+                  <input class="form-control w-75" type="search" v-model="searchprof" placeholder="Search"
+                    aria-label="Search" />
+                  <select class="form-control" v-model="searchproffilter">
+                    <option value="1" selected>Name</option>
+                    <option value="2">Email</option>
+                  </select>
+                </div>
               </div>
             </div>
             <table class="table table-striped table-bordered">
@@ -406,44 +411,44 @@ export default {
   },
   computed: {
     filteredStudentList() {
-      switch(this.searchstdfilter){
+      switch (this.searchstdfilter) {
         case "1":
           return this.AvailableStudents.filter((student) => {
             return student.name.toLowerCase().includes(this.searchstd.toLowerCase());
-        });
-      break;
-      case "2":
-        return this.AvailableStudents.filter((student) => {
-          return student.email.toLowerCase().includes(this.searchstd.toLowerCase());
-        });
+          });
+          break;
+        case "2":
+          return this.AvailableStudents.filter((student) => {
+            return student.email.toLowerCase().includes(this.searchstd.toLowerCase());
+          });
       }
     },
 
     filteredTeamsList() {
-      switch(this.searchteamfilter){
+      switch (this.searchteamfilter) {
         case "1":
           return this.AvailableTeams.filter((team) => {
             return team.name.toLowerCase().includes(this.searchteam.toLowerCase());
-        });
-      break;
-      case "2":
-        return this.AvailableTeams.filter((team) => {
-          return team.leader.toLowerCase().includes(this.searchteam.toLowerCase());
-        });
+          });
+          break;
+        case "2":
+          return this.AvailableTeams.filter((team) => {
+            return team.leader.toLowerCase().includes(this.searchteam.toLowerCase());
+          });
       }
     },
 
     filteredProfList() {
-      switch(this.searchproffilter){
+      switch (this.searchproffilter) {
         case "1":
           return this.AvailableProfs.filter((prof) => {
             return prof.name.toLowerCase().includes(this.searchprof.toLowerCase());
-        });
-      break;
-      case "2":
-        return this.AvailableProfs.filter((prof) => {
-          return prof.email.toLowerCase().includes(this.searchprof.toLowerCase());
-        });
+          });
+          break;
+        case "2":
+          return this.AvailableProfs.filter((prof) => {
+            return prof.email.toLowerCase().includes(this.searchprof.toLowerCase());
+          });
       }
     },
   },
@@ -496,5 +501,4 @@ a:hover {
     box-shadow: 1px 1px 5px 2px #888888;
     margin-bottom: 5px;
   }
-}
-</style>
+}</style>

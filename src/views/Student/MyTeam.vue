@@ -18,15 +18,10 @@
     </div>
     <div class="fs-2">
       <span>{{ leader.team }}</span>
-      <button
-        type="button"
-        v-if="leader.studentID == this.$cookies.get('user').id"
-        :class="
-          complete ? 'btn btn-primary float-end' : 'btn btn-danger float-end'
-        "
-        @click="SetComplete()"
-      >
-      {{complete?'Team is Complete':'Team is not Complete'}} 
+      <button type="button" v-if="leader.studentID == this.$cookies.get('user').id" :class="
+        complete ? 'btn btn-primary float-end' : 'btn btn-danger float-end'
+      " @click="SetComplete()">
+        {{ complete ? 'Team is Complete' : 'Team is not Complete' }}
       </button>
     </div>
     <table class="table table-striped table-bordered border-secondary my-3">
@@ -49,14 +44,12 @@
         </tr>
       </tbody>
     </table>
-    <div
-      class="float-end"
-      v-if="
+    <div class="float-end">
+      <button class="btn btn-success" @click="$router.push(`/myteam/${leader.teamId}/chat`)">Open Chat</button>
+      <button v-if="
         $store.getters.user.id != leader.studentID &&
         $store.getters.user.role == 'student'
-      "
-    >
-      <button class="btn btn-danger" @click="LeaveTeam()">Leave</button>
+      " class="btn btn-danger" @click="LeaveTeam()">Leave</button>
     </div>
   </div>
 </template>
@@ -80,7 +73,7 @@ export default {
       }
     });
   },
-  created() {},
+  created() { },
   data: function () {
     return {
       leader: "",
