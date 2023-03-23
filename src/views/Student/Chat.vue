@@ -1,6 +1,21 @@
 <template>
   <div class="chat">
     <div class="left scroll-side">
+      <div v-if="professor != null">
+        <div class="d-flex">
+          <div class="left-img">
+            <img :src="professor.img" />
+          </div>
+          <div class="right-img desc">
+            <p class="name">Dr.{{ professor.name }}</p>
+            <p class="email">
+              {{ professor.email }}
+            </p>
+          </div>
+        </div>
+        <hr />
+      </div>
+
       <div class="d-flex">
         <div class="left-img">
           <img :src="leader.img" />
@@ -38,23 +53,37 @@
             <div
               class="msgs"
               :style="
-                msg.senderId == this.$store.getters.user.id
+                msg.senderId == this.$store.getters.user.id &&
+                msg.role == this.$store.getters.user.role
                   ? 'justify-content:end;'
                   : ''
-              ">
+              "
+            >
               <span
                 class="sendername"
-                v-if="msg.senderId != this.$store.getters.user.id">
+                v-if="
+                  msg.senderId != this.$store.getters.user.id ||
+                  msg.role != this.$store.getters.user.role
+                "
+              >
                 <div class="left-img">
-                  <img :src="mesmberDic.get(msg.senderId)" />
+                  <img
+                    :src="
+                      msg.role == 'student'
+                        ? mesmberDic.get(msg.senderId)
+                        : professor.img
+                    "
+                  />
                 </div>
               </span>
               <p
                 :class="
-                  msg.senderId == this.$store.getters.user.id
+                  msg.senderId == this.$store.getters.user.id &&
+                  msg.role == this.$store.getters.user.role
                     ? 'ownmsg'
                     : 'othersmsg'
-                ">
+                "
+              >
                 {{ msg.message }}
               </p>
             </div>
@@ -65,11 +94,13 @@
             type="text"
             v-model="msg"
             class="msg-input form-control shadow-none"
-            placeholder="Type your message here..." />
+            placeholder="Type your message here..."
+          />
           <button
             class="input-group-text"
             @click="SendMsg()"
-            :disabled="msg.trim() == '' || msg == null">
+            :disabled="msg.trim() == '' || msg == null"
+          >
             <fa class="mx-2 fa" style="color: #1a73e8" icon="paper-plane"></fa>
           </button>
         </div>
@@ -97,6 +128,7 @@ export default {
       console.log(res.data);
       if (res.data.state) {
         this.leader = res.data.data.leader[0];
+        this.professor = res.data.data.professor;
         person.set(this.leader.studentID, this.leader.img);
         this.members = res.data.data.members;
         this.members.forEach((element) => {
@@ -130,6 +162,7 @@ export default {
       msg: "",
       leader: "",
       members: "",
+      professor: "",
       mesmberDic: new Map(),
     };
   },
