@@ -18,7 +18,7 @@ import { Promise } from "core-js";
 
 
 
-axios.defaults.baseURL = "http://jonyweaker-001-site1.htempurl.com";  
+axios.defaults.baseURL = "https://jonyweaker-001-site1.htempurl.com";  
 
 axios.interceptors.response.use(
   function (response) {
