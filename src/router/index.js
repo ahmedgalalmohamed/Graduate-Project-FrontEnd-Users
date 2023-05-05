@@ -99,8 +99,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   axios.defaults.headers.common["Authorization"] =
     "Bearer " + localStorage.getItem("token");
-  if (to.name != "UserLogin" && !auth()) next({ name: "UserLogin" });
-  else if (to.name == "ProfileUpdate") next({ name: "home" });
+  if (to.name != "UserLogin" && !auth()) {
+    router.push("/login");
+    next({ name: "UserLogin" });
+  } else if (to.name == "ProfileUpdate") next({ name: "home" });
   else next();
 });
 
