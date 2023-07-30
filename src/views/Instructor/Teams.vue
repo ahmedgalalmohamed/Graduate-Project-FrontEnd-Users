@@ -2,7 +2,7 @@
   <div class="p-3" v-if="state">
     <div class="fs-2 d-flex justify-content-between">
       <div>
-        <fa class="mx-3"  icon="book"></fa>
+        <fa class="mx-3" icon="book"></fa>
         <span>{{ course }}</span>
       </div>
       <div class="">
@@ -114,12 +114,9 @@ export default {
         data.append('max', this.Course.max);
         this.$http.post("Course/InstructorEdit", (data = data)).then((res) => {
           if (res.data.state) {
-            console.log(res.data);
           }
         });
       }
-      else
-        console.log("Not Allow");
     }
   }
 };

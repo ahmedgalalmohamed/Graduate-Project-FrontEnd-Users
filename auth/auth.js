@@ -1,6 +1,8 @@
+import { createStore } from "vuex";
 function Auth() {
-  let user = localStorage.getItem("token");
-  if (!user) {
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  if (ca[0]=='') {
     return false;
   }
   return true;

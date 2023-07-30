@@ -119,11 +119,10 @@ export default {
   beforeCreate() {
     if (this.$cookies.get('user').role != 'instructor') {
       this.$http.defaults.headers.common["Authorization"] =
-        "Bearer " + localStorage.getItem("token");
-      if (localStorage.getItem("token")) {
+        "Bearer " + this.$cookies.get('token');
+      if (this.$cookies.get('token')) {
         this.$http.post("Notification/getNotification").then((res) => {
           this.rand = Math.random();
-          console.log(res.data);
           if (res.data.state) {
             this.Notifications.count = res.data.data.count;
             this.Notifications.notification = res.data.data.senders;

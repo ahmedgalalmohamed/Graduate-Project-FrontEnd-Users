@@ -98,7 +98,7 @@ const router = createRouter({
 });
 router.beforeEach((to, from, next) => {
   axios.defaults.headers.common["Authorization"] =
-    "Bearer " + localStorage.getItem("token");
+    "Bearer " + window.$cookies.get("token");
   if (to.name != "UserLogin" && !auth()) {
     router.push("/login");
     next({ name: "UserLogin" });

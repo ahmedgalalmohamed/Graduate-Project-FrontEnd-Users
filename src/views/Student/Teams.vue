@@ -3,7 +3,11 @@
     <div class="accordion accordion-flush" id="accordionFlushExample">
       <div class="accordion-item">
         <CToaster placement="top-end">
-          <CToast :color="msgs.state ? 'success' : 'danger'" :key="index" v-for="(msg, index) in msgs.msg">
+          <CToast
+            :color="msgs.state ? 'success' : 'danger'"
+            :key="index"
+            v-for="(msg, index) in msgs.msg"
+          >
             <div class="d-flex">
               <CToastBody class="text-light">{{ msg.msg }}</CToastBody>
               <CToastClose class="me-2 m-auto" />
@@ -11,31 +15,52 @@
           </CToast>
         </CToaster>
         <div class="Links">
-          <span><a @click="$router.push(`/home`)">
+          <span
+            ><a @click="$router.push(`/home`)">
               <fa class="mx-2" icon="home"></fa>/
-            </a></span>
+            </a></span
+          >
           <span><a @click="$router.push(`/course`)"> My Courses /</a></span>
         </div>
         <h2 class="accordion-header" id="flush-headingOne">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-            <div style="font-size: calc(1.325rem + .9vw)!important; margin-bottom: 15px">
-
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#flush-collapseOne"
+            aria-expanded="false"
+            aria-controls="flush-collapseOne"
+          >
+            <div
+              style="
+                font-size: calc(1.325rem + 0.9vw) !important;
+                margin-bottom: 15px;
+              "
+            >
               <fa class="mx-3" icon="laptop-code"></fa>
               <span>{{ nameCourse }}</span>
             </div>
           </button>
         </h2>
-        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
-          data-bs-parent="#accordionFlushExample">
+        <div
+          id="flush-collapseOne"
+          class="accordion-collapse collapse"
+          aria-labelledby="flush-headingOne"
+          data-bs-parent="#accordionFlushExample"
+        >
           <div class="accordion-body">
             {{ description }}
           </div>
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-around cards">
-      <div class="card text-center" :style="team.state ? '' : 'display:none'" v-for="(team, index) in teams" :key="index">
+    <div class="d-flex align-content-stretch justify-content-between flex-wrap">
+      <div
+        class="card text-center"
+        :style="team.state ? '' : 'display:none'"
+        v-for="(team, index) in teams"
+        :key="index"
+      >
         <div class="card-body" v-if="team.state">
           <div>
             <p>{{ team.name }}</p>
@@ -46,8 +71,15 @@
             </p>
             <hr v-if="team.count != null" />
           </div>
-          <button class="btn btn-primary" data-bs-toggle="modal" @click="getMyTeam(team.name, teams.id)"
-            :data-bs-target="'#' + 'A' + index">
+          <button
+            v-if="team.name != 'My Team'"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            :data-bs-target="'#' + 'A' + index"
+          >
+            More
+          </button>
+          <button v-else class="btn btn-primary" @click="getMyTeam()">
             More
           </button>
         </div>
@@ -55,19 +87,35 @@
     </div>
 
     <!-- modal available team -->
-    <div class="modal fade" id="A0" tabindex="-1" aria-labelledby="A0" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="A0"
+      tabindex="-1"
+      aria-labelledby="A0"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="A0">Available Teams</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="">
               <div class="d-flex py-1 justify-content-end my-1" role="search">
                 <div class="input-group mb-3">
-                  <input class="form-control w-75" type="search" v-model="searchteam" placeholder="Search"
-                    aria-label="Search" />
+                  <input
+                    class="form-control w-75"
+                    type="search"
+                    v-model="searchteam"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
                   <select class="form-control" v-model="searchteamfilter">
                     <option value="1" selected>Team Name</option>
                     <option value="2">Leader Name</option>
@@ -84,13 +132,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(availableteam, index) in filteredTeamsList" :key="index">
+                <tr
+                  v-for="(availableteam, index) in filteredTeamsList"
+                  :key="index"
+                >
                   <td>{{ availableteam.name }}</td>
                   <td>{{ availableteam.leader }}</td>
                   <td v-if="team_id == null">
-                    <button class="btn btn-primary" @click="
-                      sendJoinRequest(null, availableteam.teamID, 'team')
-                    ">
+                    <button
+                      class="btn btn-primary"
+                      @click="
+                        sendJoinRequest(null, availableteam.teamID, 'team')
+                      "
+                    >
                       Request
                     </button>
                   </td>
@@ -104,19 +158,35 @@
     <!-- modal available team -->
 
     <!-- modal available student -->
-    <div class="modal fade" id="A1" tabindex="-1" aria-labelledby="A1" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="A1"
+      tabindex="-1"
+      aria-labelledby="A1"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="A1">Available Student</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="">
               <div class="d-flex py-1 justify-content-end my-1" role="search">
                 <div class="input-group mb-3">
-                  <input class="form-control w-75" type="search" v-model="searchstd" placeholder="Search"
-                    aria-label="Search" />
+                  <input
+                    class="form-control w-75"
+                    type="search"
+                    v-model="searchstd"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
                   <select class="form-control" v-model="searchstdfilter">
                     <option value="1" selected>Name</option>
                     <option value="2">Email</option>
@@ -135,17 +205,28 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(availablestd, index) in filteredStudentList" :key="index">
+                <tr
+                  v-for="(availablestd, index) in filteredStudentList"
+                  :key="index"
+                >
                   <td>{{ availablestd.name }}</td>
-                  <td>{{ availablestd.email }}</td>
+                  <td>
+                    <a
+                      @click="viewProfile('student', availablestd.studentID)"
+                      >{{ availablestd.email }}</a
+                    >
+                  </td>
                   <td v-if="$store.getters.user.id == team_leader">
-                    <button class="btn btn-primary" @click="
-                      sendJoinRequest(
-                        availablestd.studentID,
-                        team_id,
-                        'student'
-                      )
-                    ">
+                    <button
+                      class="btn btn-primary"
+                      @click="
+                        sendJoinRequest(
+                          availablestd.studentID,
+                          team_id,
+                          'student'
+                        )
+                      "
+                    >
                       Request
                     </button>
                   </td>
@@ -159,40 +240,69 @@
     <!-- modal available student -->
 
     <!-- modal create team -->
-    <div class="modal fade" id="A2" tabindex="-1" aria-labelledby="A2" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="A2"
+      tabindex="-1"
+      aria-labelledby="A2"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="A2">Create Team</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <form class="was-validated">
               <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Team Name<span class="text-danger">*</span></label>
+                <label class="col-sm-3 col-form-label"
+                  >Team Name<span class="text-danger">*</span></label
+                >
                 <div class="col-sm-9">
-                  <input class="form-control" v-model="CreateTeam.teamName"
-                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})" required
-                    placeholder="Team Name" />
+                  <input
+                    class="form-control"
+                    v-model="CreateTeam.teamName"
+                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})"
+                    required
+                    placeholder="Team Name"
+                  />
                 </div>
                 <div class="col-3"></div>
               </div>
 
               <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Project Name<span class="text-danger">*</span></label>
+                <label class="col-sm-3 col-form-label"
+                  >Project Name<span class="text-danger">*</span></label
+                >
                 <div class="col-sm-9">
-                  <input class="form-control" v-model="CreateTeam.proName"
-                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})" required
-                    placeholder="Project Name" />
+                  <input
+                    class="form-control"
+                    v-model="CreateTeam.proName"
+                    pattern="(([a-zA-Z0-9!#&*\\/)(+._-]{1,16})([ ]{0,1})){0,4}([a-zA-Z0-9!#&*\\/)(+._-]{1,16})"
+                    required
+                    placeholder="Project Name"
+                  />
                 </div>
                 <div class="col-3"></div>
               </div>
 
               <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">desciption<span class="text-danger">*</span></label>
+                <label class="col-sm-3 col-form-label"
+                  >desciption<span class="text-danger">*</span></label
+                >
                 <div class="col-sm-9">
-                  <textarea class="form-control" v-model="CreateTeam.proDesc" required
-                    placeholder="Desciption"></textarea>
+                  <textarea
+                    class="form-control"
+                    v-model="CreateTeam.proDesc"
+                    required
+                    placeholder="Desciption"
+                  ></textarea>
                 </div>
                 <div class="col-3"></div>
                 <div class="col-9">
@@ -202,10 +312,19 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
               Close
             </button>
-            <button type="button" data-bs-dismiss="modal" @click="addTeam()" class="btn btn-primary">
+            <button
+              type="button"
+              data-bs-dismiss="modal"
+              @click="addTeam()"
+              class="btn btn-primary"
+            >
               Add Team
             </button>
           </div>
@@ -215,19 +334,35 @@
     <!-- modal create team -->
 
     <!-- modal available profs -->
-    <div class="modal fade" id="A4" tabindex="-1" aria-labelledby="A4" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="A4"
+      tabindex="-1"
+      aria-labelledby="A4"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="A4">Available Professors</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="">
               <div class="d-flex py-1 justify-content-end my-1" role="search">
                 <div class="input-group mb-3">
-                  <input class="form-control w-75" type="search" v-model="searchprof" placeholder="Search"
-                    aria-label="Search" />
+                  <input
+                    class="form-control w-75"
+                    type="search"
+                    v-model="searchprof"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
                   <select class="form-control" v-model="searchproffilter">
                     <option value="1" selected>Name</option>
                     <option value="2">Email</option>
@@ -240,21 +375,36 @@
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col" v-if="
-                    $store.getters.user.id == team_leader && prof_id == null
-                  ">
+                  <th
+                    scope="col"
+                    v-if="
+                      $store.getters.user.id == team_leader && prof_id == null
+                    "
+                  >
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(availablepro, index) in filteredProfList" :key="index">
+                <tr
+                  v-for="(availablepro, index) in filteredProfList"
+                  :key="index"
+                >
                   <td>{{ availablepro.name }}</td>
-                  <td>{{ availablepro.email }}</td>
-                  <td v-if="
-                    $store.getters.user.id == team_leader && prof_id == null
-                  ">
-                    <button class="btn btn-primary" @click="sendProfRequest(availablepro.id, team_id)">
+                  <td>
+                    <a @click="viewProfile('proffessor', availablepro.id)">{{
+                      availablepro.email
+                    }}</a>
+                  </td>
+                  <td
+                    v-if="
+                      $store.getters.user.id == team_leader && prof_id == null
+                    "
+                  >
+                    <button
+                      class="btn btn-primary"
+                      @click="sendProfRequest(availablepro.id, team_id)"
+                    >
                       Request
                     </button>
                   </td>
@@ -293,9 +443,7 @@ export default {
         if (res.data.data.myTeam != null) {
           this.teams[2].state = false;
         } else this.teams[3].state = false;
-      }
-      else
-        this.$router.push('/');
+      } else this.$router.push("/");
     });
   },
   created() {
@@ -303,7 +451,6 @@ export default {
     data.append("email", this.$store.getters.user.email);
     data.append("id", this.$route.params.id);
     this.$http.post("Team/GetAvailableTeams", (data = data)).then((res) => {
-      console.log(res.data);
       if (res.data.state) {
         this.AvailableTeams = res.data.data;
       }
@@ -312,13 +459,11 @@ export default {
     this.$http
       .post("Student/GetAvailableStudents", (data = data))
       .then((res) => {
-        console.log(res.data);
         if (res.data.state) {
           this.AvailableStudents = res.data.data;
         }
       });
     this.$http.post("Proffessor/GetAvailableProfs").then((res) => {
-      console.log(res.data);
       if (res.data.state) {
         this.AvailableProfs = res.data.data;
       }
@@ -358,9 +503,13 @@ export default {
     };
   },
   methods: {
-    getMyTeam(name) {
-      if (name == this.teams[3].name)
-        this.$router.push("/myteam/" + this.team_id);
+    viewProfile(rule, id) {
+      document.querySelector(".modal-backdrop").remove();
+      console.log(rule + " " + id);
+      this.$router.push("/profile/" + id + "/" + rule);
+    },
+    getMyTeam() {
+      this.$router.push("/myteam/" + this.team_id);
     },
     addTeam() {
       let data = {
@@ -384,11 +533,9 @@ export default {
         Content: content,
         StudentId: student_id,
       };
-      console.log(data);
       this.$http
         .post("Notification/sendJoinRequest", (data = data))
         .then((res) => {
-          // console.log(res.data);
           this.msgs.state = res.data.state;
           this.msgs.msg.push({ msg: res.data.msg });
           this.$http.get("Notification/Pusher_notifiy");
@@ -414,12 +561,16 @@ export default {
       switch (this.searchstdfilter) {
         case "1":
           return this.AvailableStudents.filter((student) => {
-            return student.name.toLowerCase().includes(this.searchstd.toLowerCase());
+            return student.name
+              .toLowerCase()
+              .includes(this.searchstd.toLowerCase());
           });
           break;
         case "2":
           return this.AvailableStudents.filter((student) => {
-            return student.email.toLowerCase().includes(this.searchstd.toLowerCase());
+            return student.email
+              .toLowerCase()
+              .includes(this.searchstd.toLowerCase());
           });
       }
     },
@@ -428,12 +579,16 @@ export default {
       switch (this.searchteamfilter) {
         case "1":
           return this.AvailableTeams.filter((team) => {
-            return team.name.toLowerCase().includes(this.searchteam.toLowerCase());
+            return team.name
+              .toLowerCase()
+              .includes(this.searchteam.toLowerCase());
           });
           break;
         case "2":
           return this.AvailableTeams.filter((team) => {
-            return team.leader.toLowerCase().includes(this.searchteam.toLowerCase());
+            return team.leader
+              .toLowerCase()
+              .includes(this.searchteam.toLowerCase());
           });
       }
     },
@@ -442,17 +597,21 @@ export default {
       switch (this.searchproffilter) {
         case "1":
           return this.AvailableProfs.filter((prof) => {
-            return prof.name.toLowerCase().includes(this.searchprof.toLowerCase());
+            return prof.name
+              .toLowerCase()
+              .includes(this.searchprof.toLowerCase());
           });
           break;
         case "2":
           return this.AvailableProfs.filter((prof) => {
-            return prof.email.toLowerCase().includes(this.searchprof.toLowerCase());
+            return prof.email
+              .toLowerCase()
+              .includes(this.searchprof.toLowerCase());
           });
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -481,10 +640,6 @@ a:hover {
   width: 20rem;
 }
 
-.cards {
-  flex-wrap: wrap;
-}
-
 .card-body {
   box-shadow: 1px 1px 5px 2px #888888;
   border-radius: 10px;
@@ -501,4 +656,5 @@ a:hover {
     box-shadow: 1px 1px 5px 2px #888888;
     margin-bottom: 5px;
   }
-}</style>
+}
+</style>

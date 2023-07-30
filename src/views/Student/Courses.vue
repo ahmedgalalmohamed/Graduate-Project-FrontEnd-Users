@@ -1,7 +1,7 @@
 <template>
   <div class="p-3">
     <div class="Links">
-      <span><a><fa class="mx-2" icon="home"></fa>Home /</a></span>
+      <span><a @click="$router.push(`/home`)"><fa class="mx-2" icon="home"></fa>Home /</a></span>
     </div>
     <div class="fs-2">
       <fa class="mx-3" icon="book"></fa>

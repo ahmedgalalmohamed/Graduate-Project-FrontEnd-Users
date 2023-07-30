@@ -1,6 +1,8 @@
 <template>
   <div class="Links">
-          <span><a @click="$router.push(`/home`)"><fa class="mx-2" icon="home"></fa>Home /</a></span>
+    <span><a @click="$router.push(`/home`)">
+        <fa class="mx-2" icon="home"></fa>Home /
+      </a></span>
   </div>
   <div class="profile p-3">
     <div class="user-info">
@@ -130,6 +132,8 @@
 </template>
 <script>
 import { CToaster, CToastBody, CToast, CToastClose } from "@coreui/vue";
+import { compressImage } from "@/helpers/compressimg";
+
 export default {
   name: "Profile",
   components: { CToaster, CToastBody, CToast, CToastClose },
@@ -145,17 +149,24 @@ export default {
       if (that.$refs.file.files[0] != null) {
         if (that.$refs.file.files[0].name.endsWith(".jpg")) {
           const formData = new FormData();
-          formData.append("file", that.$refs.file.files[0]);
-          const headers = { "Content-Type": "multipart/form-data" };
-          that.$http
-            .post("User/ChangeImg", formData, { headers })
-            .then((res) => {
-              if (res.data.state) {
-                that.img = res.data.data;
-              }
-              that.msgs.state = res.data.state;
-              that.msgs.msg.push({ msg: res.data.msg });
-            });
+          const file = that.$refs.file.files[0];
+          const blobURL = window.URL.createObjectURL(file);
+          let img = new Image();
+          img.src = blobURL;
+          img.addEventListener("load", () => {
+            formData.append("file", compressImage(img, 0.8));
+            const headers = { "Content-Type": "multipart/form-data" };
+            that.$http
+              .post("User/ChangeImg", formData, { headers })
+              .then((res) => {
+                if (res.data.state) {
+                  that.img = res.data.data;
+                }
+                that.msgs.state = res.data.state;
+                that.msgs.msg.push({ msg: res.data.msg });
+              });
+          });
+
         }
       }
     });
@@ -179,13 +190,23 @@ export default {
       // this.msgs.msg.push({ msg: res.data.msg });
       if (res.data.state) {
         this.student = res.data.data.user[0];
-        this.img = this.student.img;
         if (res.data.data.skills) this.skils = res.data.data.skills;
         this.skillname = "";
         this.myprofile = res.data.msg;
       }
       else
         this.$router.push('/');
+    });
+
+  },
+  created() {
+    let data = new FormData();
+    data.append("id", this.$route.params.id);
+    data.append("role", this.$route.params.role);
+    this.$http.post("User/GetImage", (data = data)).then((res) => {
+      if (res.data.state) {
+        this.img = res.data.data;
+      }
     });
   },
   computed: {},
@@ -216,7 +237,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-
 .Links {
   color: #000;
   background-color: #f5f5f5;

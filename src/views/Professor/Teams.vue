@@ -48,7 +48,6 @@ export default {
 
   beforeCreate() {
     this.$http.get("Proffessor/MyTeams").then((res) => {
-      console.log(res.data);
       if (res.data.state) {
         this.state = res.data.state;
         this.teams = res.data.data;

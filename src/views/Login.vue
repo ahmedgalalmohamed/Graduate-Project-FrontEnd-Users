@@ -109,12 +109,12 @@ export default {
           this.msgs.state = res.data.state;
         }
         if (res.data.state) {
-		var now = new Date();
-              var minutes = res.data.data.exp;
-               now.setTime(now.getTime() + (minutes * 60 * 1000));
-          localStorage.setItem("token",res.data.token);
+          var now = new Date();
+          var day = res.data.data.exp;
+          now.setTime(now.getTime() + (day * 60 * 60 * 24 * 1000));
+          this.$cookies.set("token", res.data.token, now.toUTCString());
+          this.$cookies.set("user", JSON.stringify(res.data.data), now.toUTCString());
           this.$store.commit("login");
-          this.$cookies.set("user", res.data.data,res.data.token,now.toUTCString());
           this.$store.dispatch("user", res.data.data);
           window.location = "/";
         }

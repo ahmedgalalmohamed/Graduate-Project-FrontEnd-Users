@@ -11,7 +11,7 @@
     <div class="left">
       <div class="img">
         <div class="contain-img">
-          <img :src="user.img" />
+          <img :src="img" />
           <button id="custom-button" class="btn">
             <fa icon="camera"></fa>
           </button>
@@ -65,23 +65,33 @@
 
 <script>
 import { CToaster, CToastBody, CToast, CToastClose } from "@coreui/vue";
+import { compressImage } from "@/helpers/compressimg";
 export default {
   name: "UpdateInfo",
   components: { CToaster, CToastBody, CToast, CToastClose },
   data() {
     return {
       msgs: { msg: [], state: true },
-      user: { phone: "", desc: "", address: "", img: "", team_count: 0 },
+      user: { phone: "", desc: "", address: "", team_count: 0 },
+      img:""
     };
   },
   beforeCreate() {
     this.$http.get("User/GetEditData").then((res) => {
-      console.log(res.data);
       if (res.data.state) {
         this.user = res.data.data[0];
       }
     });
-    console.log(this.user);
+  },
+  created(){
+    let data = new FormData();
+    data.append("id", this.$store.getters.user.id);
+    data.append("role", this.$store.getters.user.role);
+    this.$http.post("User/GetImage", (data = data)).then((res) => {
+      if (res.data.state) {
+        this.img = res.data.data;
+      }
+    });
   },
   mounted() {
     let that = this;
@@ -95,17 +105,24 @@ export default {
       if (that.$refs.file.files[0] != null) {
         if (that.$refs.file.files[0].name.endsWith(".jpg")) {
           const formData = new FormData();
-          formData.append("file", that.$refs.file.files[0]);
-          const headers = { "Content-Type": "multipart/form-data" };
-          that.$http
-            .post("User/ChangeImg", formData, { headers })
-            .then((res) => {
-              if (res.data.state) {
-                that.user.img = res.data.data;
-              }
-              that.msgs.state = res.data.state;
-              that.msgs.msg.push({ msg: res.data.msg });
-            });
+          const file = that.$refs.file.files[0];
+          const blobURL = window.URL.createObjectURL(file);
+          let img = new Image();
+          img.src = blobURL;
+          img.addEventListener("load", () => {
+            formData.append("file", compressImage(img, 0.8));
+            const headers = { "Content-Type": "multipart/form-data" };
+            that.$http
+              .post("User/ChangeImg", formData, { headers })
+              .then((res) => {
+                if (res.data.state) {
+                  that.user.img = res.data.data;
+                }
+                that.msgs.state = res.data.state;
+                that.msgs.msg.push({ msg: res.data.msg });
+              });
+          });
+
         }
       }
     });
@@ -119,7 +136,6 @@ export default {
         TeamCount: this.user.team_count == null ? 0 : this.user.team_count,
       };
       this.$http.post("User/EditProfile", (data = data)).then((res) => {
-        this.user = {};
         this.msgs.state = res.data.state;
         this.msgs.msg.push({ msg: res.data.msg });
       });

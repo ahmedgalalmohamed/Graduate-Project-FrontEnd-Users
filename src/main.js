@@ -15,10 +15,8 @@ library.add(fas);
 import { Promise } from "core-js";
 
 
-
-
-
-axios.defaults.baseURL = "https://jonyweaker-001-site1.htempurl.com";  
+axios.defaults.baseURL = "https://imz1304-001-site1.atempurl.com"; 
+// axios.defaults.baseURL = "https://localhost:7184"; 
 
 axios.interceptors.response.use(
   function (response) {

@@ -19,8 +19,8 @@ export default createStore({
     },
     logout(state) {
       state.userlogin = false;
+      window.$cookies.remove("token");
       window.$cookies.remove("user");
-      localStorage.removeItem("token");
     },
   },
   actions: {
